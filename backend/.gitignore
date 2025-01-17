@@ -392,3 +392,4 @@ gradle-app.setting
 *.hprof
 
 **/secrets.json
+**/SECRET.yml
