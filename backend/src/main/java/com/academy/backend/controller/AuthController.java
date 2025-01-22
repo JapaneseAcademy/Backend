@@ -18,9 +18,8 @@ public class OAuthController {
     private final KakaoOAuthService kakaoOAuthService;
 
     @PostMapping("/kakao")
-    public ResponseEntity<?> kakaoLogin(@RequestBody KakaoOAuthRequest requestDto) {
-        String authorizationCode = requestDto.getAuthorizationCode();
-        LoginResponse loginResponse = kakaoOAuthService.kakaoLogin(authorizationCode);
+    public ResponseEntity<?> kakaoLogin(@RequestBody KakaoOAuthRequest request) {
+        LoginResponse loginResponse = kakaoOAuthService.kakaoLogin(request);
 
         return ResponseEntity.ok(loginResponse);
     }
