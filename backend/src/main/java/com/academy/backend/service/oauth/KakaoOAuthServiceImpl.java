@@ -36,8 +36,13 @@ public class KakaoOAuthServiceImpl implements KakaoOAuthService{
     private final AuthTokenGenerator authTokenGenerator;
 
     public LoginResponse kakaoLogin(String authorizationCode) {
+        // 1. 카카오 액세스 토큰 발급
         String accessToken = getAccessToken(authorizationCode);
+
+        // 2. 액세스 토큰을 이용해 카카오 id 정보 획득
         Long userId = getKakaoId(accessToken);
+
+        // 3. 로그인(jwt 토큰 발급)
         return login(userId);
     }
 
