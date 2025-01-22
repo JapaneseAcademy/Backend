@@ -23,7 +23,7 @@ public class JwtFilter extends HttpFilter {
             "/h2-console",
             "/api/v1/test",
             "/swagger-ui",
-            "/api/v1/oauth/kakao"
+            "/api/v1/auth"
     );
 
     @Override
