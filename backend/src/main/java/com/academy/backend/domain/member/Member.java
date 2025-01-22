@@ -1,6 +1,9 @@
 package com.academy.backend.domain.member;
 
+import com.academy.backend.domain.BaseTimeEntity;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,8 +11,8 @@ import java.time.LocalDate;
 
 @Entity
 @Getter
-@NoArgsConstructor
-public class Member {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Member extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,4 +33,13 @@ public class Member {
 
     @Column(nullable = false)
     private boolean isActive = true;
+
+    @Builder
+    public Member(String loginId, String name, String phone, LocalDate birth, Role role) {
+        this.loginId = loginId;
+        this.name = name;
+        this.phone = phone;
+        this.birth = birth;
+        this.role = role;
+    }
 }
