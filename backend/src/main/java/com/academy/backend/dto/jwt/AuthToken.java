@@ -14,14 +14,12 @@ public class AuthToken {
     private String grantType;
     private String accessToken;
     private String refreshToken;
-    private Long expiresIn;
 
-    public static AuthToken of(String accessToken, String refreshToken, String grantType, Long expiresIn) {
+    public static AuthToken of(String grantType, String accessToken, String refreshToken) {
         return AuthToken.builder()
                 .grantType(grantType)
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
-                .expiresIn(expiresIn)
                 .build();
     }
 }
