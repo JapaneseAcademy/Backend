@@ -1,12 +1,9 @@
 package com.academy.backend.service.oauth;
 
 import com.academy.backend.config.auth.AuthTokenGenerator;
-import com.academy.backend.domain.member.Member;
-import com.academy.backend.dto.jwt.AuthToken;
 import com.academy.backend.dto.request.oauth.KakaoOAuthRequest;
 import com.academy.backend.dto.response.oauth.KakaoOAuthTokenResponse;
 import com.academy.backend.dto.response.oauth.LoginResponse;
-import com.academy.backend.exception.member.UserNotRegisteredException;
 import com.academy.backend.exception.oauth.KakaoTokenResponseException;
 import com.academy.backend.repository.MemberRepository;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -83,12 +80,10 @@ public class KakaoOAuthServiceImpl implements KakaoOAuthService{
 
     public LoginResponse login(Long userId) {
         String loginId = provider + userId;
-        Member member = memberRepository.findByLoginId(loginId).orElseThrow(
-                () -> new UserNotRegisteredException()
-        );
-        AuthToken token = authTokenGenerator.generate(loginId);
 
-        return new LoginResponse(member.getId(), member.getName(), member.getRole(), member.isActive(), token);
+        return memberRepository.findByLoginId(loginId)
+                .map(member -> new LoginResponse(member, authTokenGenerator.generate(loginId), false))
+                .orElseGet(() -> new LoginResponse(loginId, true));
     }
 
     @Getter
