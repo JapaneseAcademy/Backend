@@ -40,7 +40,6 @@ public class JwtFilter extends HttpFilter {
 
         // 특정 경로에 대해서는 필터를 우회
         if (EXCLUDE_URLS.stream().anyMatch(requestURI::startsWith)) {
-            System.out.println("우회됨");
             chain.doFilter(request, response);
             return;
         }
