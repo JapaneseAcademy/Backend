@@ -36,7 +36,7 @@ jobs:
 
       # Gradle 빌드 및 테스트 실행
       - name: Build and Test
-        run: ./gradlew clean build
+        run: ~/academy/backend/gradlew clean build
 
   # 2. Deploy Job
   deploy:
