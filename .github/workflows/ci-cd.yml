@@ -48,7 +48,7 @@ jobs:
 
       # SECRET 파일 권한
       - name: Fix secrets.yml Permissions
-        run: chmod 644 backend/src/main/resources/secrets.yml
+        run: chmod 644 backend/src/main/resources/SECRET.yml
 
       # 📌 Gradle 빌드 및 테스트 실행
       - name: Build and Test
