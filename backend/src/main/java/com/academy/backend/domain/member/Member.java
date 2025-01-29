@@ -12,6 +12,9 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(indexes = {
+        @Index(name = "idxMemberRole", columnList = "role")
+})
 public class Member extends BaseTimeEntity {
 
     @Id
@@ -26,9 +29,7 @@ public class Member extends BaseTimeEntity {
     private String phone;
     private LocalDate birth;
 
-    // TODO: Index 처리해주기
     @Enumerated(EnumType.STRING)
-    @Column(name = "memberRole")
     private Role role;
 
     @Column(nullable = false)
