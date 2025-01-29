@@ -43,9 +43,8 @@ jobs:
             ${{ runner.os }}-gradle-
       
       # SECRET 파일이 존재하는지 확인
-      - name: Check if SECRET.yml exists
-        run: ls -l backend/src/main/resources/
-
+      - name: Check secrets.yml Path
+        run: find backend/ -name "secrets.yml"
 
       # 📌 Gradle 빌드 및 테스트 실행
       - name: Build and Test
