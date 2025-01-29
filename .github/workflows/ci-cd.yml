@@ -42,13 +42,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
       
-      # SECRET 파일이 존재하는지 확인
-      - name: Check if secrets.yml exists
-        run: ls -l backend/src/main/resources/
-
-      # SECRET 파일 권한
-      - name: Fix secrets.yml Permissions
-        run: chmod 644 backend/src/main/resources/SECRET.yml
+      # SECRET.yml 파일 생성
+      - name: Create SECRET.yml
+        run: |
+          echo "${{ secrets.SECRET_YML }}" > backend/src/main/resources/SECRET.yml
+          chmod 644 backend/src/main/resources/SECRET.yml
 
       # 📌 Gradle 빌드 및 테스트 실행
       - name: Build and Test
