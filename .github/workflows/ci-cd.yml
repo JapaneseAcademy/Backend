@@ -70,7 +70,7 @@ jobs:
           SERVER_USER: ${{ secrets.SERVER_USER }}
         run: echo "Environment variables set."
 
-      # 📌 SSH 키 생성 및 서버 연결 테스트
+      # 📌 SSH 키 생성 및 서버 연결 테스트 
       - name: Configure SSH Key
         run: |
           echo "$DEPLOY_KEY" > japanacademy.pem
