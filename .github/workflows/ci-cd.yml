@@ -43,8 +43,8 @@ jobs:
             ${{ runner.os }}-gradle-
       
       # SECRET 파일이 존재하는지 확인
-      - name: Check secrets.yml Path
-        run: find backend/ -name "secrets.yml"
+      - name: Check if secrets.yml exists
+        run: ls -l backend/src/main/resources/
 
       # SECRET 파일 권한
       - name: Fix secrets.yml Permissions
