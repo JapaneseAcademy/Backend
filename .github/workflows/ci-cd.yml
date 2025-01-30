@@ -73,9 +73,9 @@ jobs:
       # 📌 SSH 키 생성 및 서버 연결 테스트 
       - name: Configure SSH Key
         run: |
-          printf "%s\n" "${{ secrets.DEPLOY_KEY }}" > japanacademy.pem
-          chmod 600 japanacademy.pem
-          ssh -i japanacademy.pem -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "echo Connected!"
+          printf "%s\n" "${{ secrets.DEPLOY_KEY }}" > japan_academy.pem
+          chmod 600 japan_academy.pem
+          ssh -i japan_academy.pem -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "echo Connected!"
 
       # 📌 📦 빌드된 `.jar` 파일을 서버로 복사 (백엔드만 배포)
       - name: Deploy JAR to Server
