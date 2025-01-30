@@ -77,6 +77,9 @@ jobs:
         run: |
           ssh -i japan_academy.pem -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "echo Connected!"
 
+      - name: Print Working Directory
+        run: pwd && ls -l        
+
       - name: Deploy JAR to Server
         run: |
           scp -i japan_academy.pem backend/build/libs/backend-0.0.1-SNAPSHOT.jar $SERVER_USER@$SERVER_IP:~/academy/backend/app.jar
