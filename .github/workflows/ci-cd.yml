@@ -79,7 +79,7 @@ jobs:
 
       - name: Deploy JAR to Server
         run: |
-          scp -i japan_academy.pem backend/build/libs/*.jar $SERVER_USER@$SERVER_IP:~/academy/backend/app.jar
+          scp -i japan_academy.pem backend/build/libs/*SNAPSHOT.jar $SERVER_USER@$SERVER_IP:~/academy/backend/app.jar
 
       - name: Restart Application
         run: |
