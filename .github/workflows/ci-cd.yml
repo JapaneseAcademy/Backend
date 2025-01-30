@@ -1,6 +1,5 @@
 name: CI/CD Pipeline for Spring Boot (Gradle)
 
-# ✅ `deploy` 브랜치에 푸시될 때 실행
 on:
   push:
     branches:
@@ -10,30 +9,24 @@ on:
       - deploy
 
 jobs:
-  # 🎯 1️⃣ Build & Test Job
   build-and-test:
     runs-on: ubuntu-latest
     steps:
-      # 📌 소스코드 체크아웃
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 📌 현재 디렉토리 확인 (디버깅용)
       - name: Print Current Directory
         run: pwd && ls -l
 
-      # 📌 Java 환경 설정
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'  # OpenJDK
-          java-version: '17'       # Java 17 사용
+          distribution: 'temurin'
+          java-version: '17'
 
-      # 📌 Gradle Wrapper 실행 권한 부여
       - name: Grant Execute Permission for Gradlew
         run: chmod +x backend/gradlew
 
-      # 📌 Gradle 의존성 캐싱 (속도 최적화)
       - name: Cache Gradle Dependencies
         uses: actions/cache@v3
         with:
@@ -42,65 +35,53 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
       
-      # SECRET.yml 파일 생성
       - name: Create SECRET.yml
         run: |
           echo "${{ secrets.SECRET_YML }}" > backend/src/main/resources/SECRET.yml
           chmod 644 backend/src/main/resources/SECRET.yml
 
-      # 📌 Gradle 빌드 및 테스트 실행
       - name: Build and Test
         run: cd backend && ./gradlew clean build
 
-  # 🎯 2️⃣ Deploy Job
   deploy:
     runs-on: ubuntu-latest
-    needs: build-and-test  # ✅ 빌드 & 테스트 성공 시 실행
-    if: github.ref == 'refs/heads/deploy'  # ✅ `deploy` 브랜치에서 실행
+    needs: build-and-test
+    if: github.ref == 'refs/heads/deploy'
     steps:
-      # 📌 소스코드 체크아웃
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 📌 GitHub Secrets를 환경 변수로 설정
       - name: Set Up Environment Variables
-        env:
-          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
-          SERVER_IP: ${{ secrets.SERVER_IP }}
-          SERVER_USER: ${{ secrets.SERVER_USER }}
-        run: echo "Environment variables set."
+        run: |
+          echo "SERVER_USER=${{ secrets.SERVER_USER }}" >> $GITHUB_ENV
+          echo "SERVER_IP=${{ secrets.SERVER_IP }}" >> $GITHUB_ENV
+          echo "DEPLOY_KEY=${{ secrets.DEPLOY_KEY }}" >> $GITHUB_ENV
 
-      # 환경 변수 점검
-        - name: Debug SSH Connection Variables
-          run: |
-            echo "SERVER_USER: $SERVER_USER"
-            echo "SERVER_IP: $SERVER_IP"
-            echo "DEPLOY_KEY: $DEPLOY_KEY"
+      - name: Debug SSH Connection Variables
+        run: |
+          echo "SERVER_USER: $SERVER_USER"
+          echo "SERVER_IP: $SERVER_IP"
+          echo "DEPLOY_KEY: [HIDDEN]"
 
-      # 📌 SSH 키 생성 및 서버 연결 테스트 
       - name: Configure SSH Key
         run: |
-          echo "${{ secrets.DEPLOY_KEY }}" | awk '{print $0 "\n"}' > japan_academy.pem
-          chmod 600 japan_academy.pem    
+          printf "%s\n" "${{ secrets.DEPLOY_KEY }}" > japan_academy.pem
+          chmod 600 japan_academy.pem
           ssh -i japan_academy.pem -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "echo Connected!"
 
-      # 📌 📦 빌드된 `.jar` 파일을 서버로 복사 (백엔드만 배포)
       - name: Deploy JAR to Server
         run: |
-          scp -i deploy_key.pem backend/build/libs/*.jar $SERVER_USER@$SERVER_IP:~/academy/backend/app.jar
+          scp -i japan_academy.pem backend/build/libs/*.jar $SERVER_USER@$SERVER_IP:~/academy/backend/app.jar
 
-      # 📌 원격 서버에서 기존 애플리케이션 종료 후 새 JAR 실행
       - name: Restart Application
         run: |
-          ssh -i deploy_key.pem $SERVER_USER@$SERVER_IP <<EOF
-            # 기존 프로세스 종료
+          ssh -i japan_academy.pem $SERVER_USER@$SERVER_IP <<EOF
             PID=\$(ps aux | grep 'app.jar' | grep -v grep | awk '{print \$2}')
             if [ ! -z "\$PID" ]; then
               echo "Stopping existing application with PID: \$PID"
               kill -9 \$PID
             fi
             
-            # 새 애플리케이션 실행
             echo "Starting new application..."
             nohup java -jar ~/academy/backend/app.jar > ~/academy/backend/nohup.out 2>&1 &
           EOF
