@@ -78,7 +78,7 @@ jobs:
           ssh -i japan_academy.pem -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "echo Connected!"
 
       - name: Build without Test
-        run: cd backend && ./gradlew clean build -x test
+        run: cd backend && chmod +x ./gradlew && ./gradlew clean build -x test
 
       - name: Deploy JAR to Server
         run: |
