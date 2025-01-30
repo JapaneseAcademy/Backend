@@ -51,22 +51,27 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # ✅ GitHub Secrets 값을 환경 변수로 저장 (SSH 키 제외)
       - name: Set Up Environment Variables
         run: |
           echo "SERVER_USER=${{ secrets.SERVER_USER }}" >> $GITHUB_ENV
           echo "SERVER_IP=${{ secrets.SERVER_IP }}" >> $GITHUB_ENV
-          echo "DEPLOY_KEY=${{ secrets.DEPLOY_KEY }}" >> $GITHUB_ENV
 
-      - name: Debug SSH Connection Variables
-        run: |
-          echo "SERVER_USER: $SERVER_USER"
-          echo "SERVER_IP: $SERVER_IP"
-          echo "DEPLOY_KEY: [HIDDEN]"
-
+      # ✅ SSH 키를 파일로 저장 (GITHUB_ENV 사용하지 않음)
       - name: Configure SSH Key
         run: |
           printf "%s\n" "${{ secrets.DEPLOY_KEY }}" > japan_academy.pem
           chmod 600 japan_academy.pem
+
+      # ✅ 환경 변수 확인 (DEPLOY_KEY는 출력하지 않음)
+      - name: Debug SSH Connection Variables
+        run: |
+          echo "SERVER_USER: $SERVER_USER"
+          echo "SERVER_IP: $SERVER_IP"
+
+      # ✅ SSH 접속 테스트
+      - name: Test SSH Connection
+        run: |
           ssh -i japan_academy.pem -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "echo Connected!"
 
       - name: Deploy JAR to Server
