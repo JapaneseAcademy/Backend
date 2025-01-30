@@ -75,7 +75,7 @@ jobs:
         run: |
           echo "SERVER_USER: $SERVER_USER"
           echo "SERVER_IP: $SERVER_IP"
-      
+          echo "DEPLOY_KEY: $DEPLOY_KEY"
 
       # 📌 SSH 키 생성 및 서버 연결 테스트 
       - name: Configure SSH Key
