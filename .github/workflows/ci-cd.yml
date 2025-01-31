@@ -82,7 +82,7 @@ jobs:
 
       - name: Deploy JAR to Server
         run: |
-          scp -i japan_academy.pem backend/build/libs/backend-0.0.1-SNAPSHOT.jar $SERVER_USER@$SERVER_IP:~/academy/backend/app.jar
+          scp -i japan_academy.pem backend/build/libs/backend-0.0.1-SNAPSHOT.jar $SERVER_USER@$SERVER_IP:~/academy/backend/build/libs/app.jar
 
       - name: Restart Application
         run: |
@@ -94,5 +94,5 @@ jobs:
             fi
             
             echo "Starting new application..."
-            nohup java -jar ~/academy/backend/app.jar > ~/academy/backend/nohup.out 2>&1 &
+            nohup java -jar ~/academy/backend/build/libs/app.jar > ~/academy/backend/build/libs/nohup.out 2>&1 &
           EOF
