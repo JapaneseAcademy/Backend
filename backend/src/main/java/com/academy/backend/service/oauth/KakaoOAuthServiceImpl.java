@@ -82,7 +82,7 @@ public class KakaoOAuthServiceImpl implements KakaoOAuthService{
         String loginId = provider + userId;
 
         return memberRepository.findByLoginId(loginId)
-                .map(member -> new LoginResponse(member, authTokenGenerator.generate(loginId), false))
+                .map(member -> new LoginResponse(member, authTokenGenerator.generate(loginId, member.getRole()), false))
                 .orElseGet(() -> new LoginResponse(loginId, true));
     }
 

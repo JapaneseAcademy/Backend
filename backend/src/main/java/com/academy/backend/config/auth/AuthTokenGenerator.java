@@ -1,6 +1,7 @@
 package com.academy.backend.config.auth;
 
 import com.academy.backend.config.jwt.JwtProvider;
+import com.academy.backend.domain.member.Role;
 import com.academy.backend.dto.jwt.AuthToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -19,12 +20,12 @@ public class AuthTokenGenerator {
 
     private final JwtProvider jwtProvider;
 
-    public AuthToken generate(String loginId) {
+    public AuthToken generate(String loginId, Role role) {
         long now = (new Date()).getTime();
         Date accessTokenExpiredAt = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
         Date refreshTokenExpiredAt = new Date(now + REFRESH_TOKEN_EXPIRE_TIME);
 
-        String accessToken = jwtProvider.accessTokenGenerate(loginId, accessTokenExpiredAt);
+        String accessToken = jwtProvider.accessTokenGenerate(loginId, role, accessTokenExpiredAt);
         String refreshToken = jwtProvider.refreshTokenGenerate(refreshTokenExpiredAt);
 
         return AuthToken.of(BEARER_TYPE, accessToken, refreshToken);

@@ -4,6 +4,7 @@ import com.academy.backend.config.jwt.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -30,8 +31,9 @@ public class SecurityConfig {
                 .cors((SecurityConfig::corsAllow))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                                .requestMatchers("/h2-console/**", "/api/v1/test/**", "/api/v1/auth/**").permitAll() // 여러 경로를 한 줄로 그룹화
-                                .anyRequest().authenticated() // 나머지 요청 인증 필요
+                        .requestMatchers("/h2-console/**", "/api/v1/test/**", "/api/v1/auth/**").permitAll() // 여러 경로를 한 줄로 그룹화
+                        .requestMatchers(HttpMethod.POST, "api/v1/courses").hasRole("INSTRUCTOR")
+                        .anyRequest().authenticated() // 나머지 요청 인증 필요
                 )
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

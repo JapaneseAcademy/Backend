@@ -2,6 +2,7 @@ package com.academy.backend.config.jwt;
 
 import com.academy.backend.config.auth.PrincipalDetails;
 import com.academy.backend.config.auth.PrincipalDetailsService;
+import com.academy.backend.domain.member.Role;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -31,13 +32,13 @@ public class JwtProvider {
         String loginId = getLoginIdFromAccessToken(token);
         PrincipalDetails principalDetails = (PrincipalDetails) principalDetailsService.loadUserByUsername(loginId);
 
-        // 만약 권한이 한 가지로 고정이라면, 예를 들어 ROLE_USER
         return new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
     }
 
-    public String accessTokenGenerate(String subject, Date expiredAt) {
+    public String accessTokenGenerate(String loginId, Role role, Date expiredAt) {
         return Jwts.builder()
-                .setSubject(subject)    //uid
+                .setSubject(loginId)
+                .claim("role", role)
                 .setExpiration(expiredAt)
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
