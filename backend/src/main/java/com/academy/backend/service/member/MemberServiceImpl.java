@@ -47,9 +47,9 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Transactional(readOnly = true)
-    public MemberResponse getMemberByLoginId(String provider, Long userId) {
+    public MemberResponse getMemberByLoginId(String provider, Long memberId) {
 
-        String loginId = provider + userId;
+        String loginId = provider + memberId;
         Member member = memberRepository.findByLoginId(loginId).orElseThrow(
                 () -> new UserNotFoundException(loginId)
         );
@@ -57,5 +57,10 @@ public class MemberServiceImpl implements MemberService{
         return MemberResponse.of(member);
     }
 
-
+    @Transactional(readOnly = true)
+    public Member getMemberById(Long id) {
+        return memberRepository.findById(id).orElseThrow(
+                () -> new UserNotFoundException(id)
+        );
+    }
 }
