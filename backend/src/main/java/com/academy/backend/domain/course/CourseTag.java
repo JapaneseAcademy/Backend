@@ -2,6 +2,7 @@ package com.academy.backend.domain.course;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
@@ -27,4 +28,10 @@ public class CourseTag {
     @JoinColumn(name = "tagId")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Tag tag;
+
+    @Builder
+    public CourseTag(Course course, Tag tag) {
+        this.course = course;
+        this.tag = tag;
+    }
 }
