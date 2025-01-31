@@ -6,6 +6,9 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Collections;
+import java.util.List;
+
 @Getter
 @Setter
 public class CourseCreateRequest {
@@ -20,4 +23,6 @@ public class CourseCreateRequest {
     @NotBlank(message = "강의 설명은 필수 입력 사항입니다.")
     @Size(max = 500, message = "설명은 500자 이내로 입력해주세요.")
     private String description;
+
+    private List<String> tags = Collections.emptyList();
 }
