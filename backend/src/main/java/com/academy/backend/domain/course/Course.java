@@ -1,4 +1,4 @@
-package com.academy.backend.domain;
+package com.academy.backend.domain.course;
 
 import com.academy.backend.domain.member.Member;
 import jakarta.persistence.*;
