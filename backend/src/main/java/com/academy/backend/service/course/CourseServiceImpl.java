@@ -82,8 +82,7 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     @Transactional(readOnly = true)
-    public CourseResponse getCourse(Long courseId) {
-        Course course = findCourse(courseId);
+    public CourseResponse getCourse(Course course) {
         List<TimeTable> timeTables = timeTableService.getTimeTablesByCourse(course);
         List<CourseType> courseTypes = courseTypeService.getCourseTypesByCourse(course);
         List<Tag> tags = courseTagService.getTagsByCourse(course);
@@ -91,6 +90,16 @@ public class CourseServiceImpl implements CourseService{
         return CourseResponse.of(course, timeTables, courseTypes, tags);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<CourseResponse> getAllCourses() {
+        List<Course> courses = courseRepository.findAll();
+        return courses.stream()
+                .map(course -> getCourse(course))
+                .toList();
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Course findCourse(Long courseId) {
         return courseRepository.findById(courseId).orElseThrow(
