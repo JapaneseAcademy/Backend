@@ -1,4 +1,4 @@
-package com.academy.backend.dto.response;
+package com.academy.backend.dto.response.course;
 
 import com.academy.backend.domain.course.Course;
 import com.academy.backend.exception.course.CourseMappingException;
