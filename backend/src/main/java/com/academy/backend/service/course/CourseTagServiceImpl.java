@@ -6,6 +6,7 @@ import com.academy.backend.domain.course.Tag;
 import com.academy.backend.repository.CourseTagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,7 +17,8 @@ public class CourseTagServiceImpl implements CourseTagService {
     private final CourseTagRepository courseTagRepository;
 
     @Override
-    public void craeteCourseTag(Course course, List<Tag> tags) {
+    @Transactional
+    public void createCourseTag(Course course, List<Tag> tags) {
         tags.forEach(tag -> courseTagRepository
                 .save(CourseTag.builder()
                         .course(course)

@@ -5,14 +5,10 @@ import com.academy.backend.domain.course.Tag;
 import com.academy.backend.domain.member.Member;
 import com.academy.backend.dto.request.CourseCreateRequest;
 import com.academy.backend.dto.response.CourseCreateResponse;
-import com.academy.backend.exception.course.TagNotFoundException;
-import com.academy.backend.exception.member.UserMappingException;
-import com.academy.backend.exception.member.UserNotFoundException;
 import com.academy.backend.repository.CourseRepository;
-import com.academy.backend.repository.CourseTagRepository;
-import com.academy.backend.repository.MemberRepository;
 import com.academy.backend.repository.TagRepository;
 import com.academy.backend.service.member.MemberService;
+import com.academy.backend.service.timetable.TimeTableService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +22,8 @@ public class CourseServiceImpl implements CourseService{
 
     private final MemberService memberService;
     private final CourseTagService courseTagService;
+    private final CourseTypeService courseTypeService;
+    private final TimeTableService timeTableService;
 
     private final CourseRepository courseRepository;
     private final TagRepository tagRepository;
@@ -52,8 +50,14 @@ public class CourseServiceImpl implements CourseService{
         // 입력값에 태그가 주어질 때 존재하지 않는 태그 검증 및 생성
         if (!request.getTags().isEmpty()){
             List<Tag> tags = createTags(request.getTags());
-            courseTagService.craeteCourseTag(course, tags);
+            courseTagService.createCourseTag(course, tags);
         }
+
+        // 수업 시간표 생성
+        timeTableService.createTimeTable(course, request.getTimetables());
+
+        // 수업 유형 별 비용 생성
+        courseTypeService.createCourseType(course, request.getCourseTypes());
 
         return CourseCreateResponse.of(course);
     }
@@ -63,9 +67,9 @@ public class CourseServiceImpl implements CourseService{
         List<Tag> savedTags = new ArrayList<>();
 
         tags.forEach(tag -> {
-            Tag savedTag = tagRepository.findByLabel(tag)
+            Tag saved = tagRepository.findByLabel(tag)
                     .orElseGet(() -> tagRepository.save(Tag.builder().label(tag).build())); // 존재하면 가져오고, 없으면 저장
-            savedTags.add(savedTag); // 새 리스트에 추가
+            savedTags.add(saved);
         });
 
         return savedTags;

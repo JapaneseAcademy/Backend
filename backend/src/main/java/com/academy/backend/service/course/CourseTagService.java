@@ -6,5 +6,5 @@ import com.academy.backend.domain.course.Tag;
 import java.util.List;
 
 public interface CourseTagService {
-    public void craeteCourseTag(Course course, List<Tag> tags);
+    public void createCourseTag(Course course, List<Tag> tags);
 }
