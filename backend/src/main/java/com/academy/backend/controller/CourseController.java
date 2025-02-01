@@ -1,5 +1,6 @@
 package com.academy.backend.controller;
 
+import com.academy.backend.domain.course.Course;
 import com.academy.backend.dto.request.CourseCreateRequest;
 import com.academy.backend.dto.response.course.CourseCreateResponse;
 import com.academy.backend.dto.response.course.CourseResponse;
@@ -10,12 +11,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequestMapping("/api/v1/courses")
 @RestController
 @RequiredArgsConstructor
 public class CourseController {
 
     private final CourseService courseService;
+
+    @GetMapping("")
+    public ResponseEntity<List<CourseResponse>> getAllCourses() {
+        return ResponseEntity.ok(courseService.getAllCourses());
+    }
 
     @PostMapping("")
     public ResponseEntity<CourseCreateResponse> createCourse(@Valid @RequestBody CourseCreateRequest request) {
@@ -26,7 +34,8 @@ public class CourseController {
 
     @GetMapping("/{courseId}")
     public ResponseEntity<CourseResponse> getCourse(@PathVariable Long courseId) {
-        CourseResponse response = courseService.getCourse(courseId);
+        Course course = courseService.findCourse(courseId);
+        CourseResponse response = courseService.getCourse(course);
 
         return ResponseEntity.ok(response);
     }
