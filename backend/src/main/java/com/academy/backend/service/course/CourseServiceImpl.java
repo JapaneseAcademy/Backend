@@ -30,6 +30,7 @@ public class CourseServiceImpl implements CourseService{
     private final CourseRepository courseRepository;
     private final TagRepository tagRepository;
 
+    @Override
     @Transactional
     public Course saveCourse(Member member, CourseCreateRequest request) {
         Course course = Course.builder()
