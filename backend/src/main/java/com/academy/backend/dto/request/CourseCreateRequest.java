@@ -1,6 +1,8 @@
 package com.academy.backend.dto.request;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -25,4 +27,12 @@ public class CourseCreateRequest {
     private String description;
 
     private List<String> tags = Collections.emptyList();
+
+    @Valid
+    @NotEmpty(message = "수업 일정은 최소 하나 이상 입력해야 합니다.")
+    private List<CourseTimeTableRequest> timetables = Collections.emptyList();
+
+    @Valid
+    @NotEmpty(message = "수업 유형은 최소 하나 이상 입력해야 합니다.")
+    private List<CourseTypeRequest> courseTypes = Collections.emptyList();
 }
