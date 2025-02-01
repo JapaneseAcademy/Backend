@@ -80,6 +80,8 @@ public class CourseServiceImpl implements CourseService{
         return savedTags;
     }
 
+    @Override
+    @Transactional(readOnly = true)
     public CourseResponse getCourse(Long courseId) {
         Course course = findCourse(courseId);
         List<TimeTable> timeTables = timeTableService.getTimeTablesByCourse(course);
