@@ -1,10 +1,15 @@
 package com.academy.backend.service.course;
 
 import com.academy.backend.domain.course.Course;
+import com.academy.backend.domain.course.CourseTag;
+import com.academy.backend.domain.course.CourseType;
 import com.academy.backend.domain.course.Tag;
 import com.academy.backend.domain.member.Member;
+import com.academy.backend.domain.timetable.TimeTable;
 import com.academy.backend.dto.request.CourseCreateRequest;
-import com.academy.backend.dto.response.CourseCreateResponse;
+import com.academy.backend.dto.response.course.CourseCreateResponse;
+import com.academy.backend.dto.response.course.CourseResponse;
+import com.academy.backend.exception.course.CourseNotFoundException;
 import com.academy.backend.repository.CourseRepository;
 import com.academy.backend.repository.TagRepository;
 import com.academy.backend.service.member.MemberService;
@@ -73,5 +78,21 @@ public class CourseServiceImpl implements CourseService{
         });
 
         return savedTags;
+    }
+
+    public CourseResponse getCourse(Long courseId) {
+        Course course = findCourse(courseId);
+        List<TimeTable> timeTables = timeTableService.getTimeTablesByCourse(course);
+        List<CourseType> courseTypes = courseTypeService.getCourseTypesByCourse(course);
+        List<Tag> tags = courseTagService.getTagsByCourse(course);
+
+        return CourseResponse.of(course, timeTables, courseTypes, tags);
+    }
+
+    @Transactional(readOnly = true)
+    public Course findCourse(Long courseId) {
+        return courseRepository.findById(courseId).orElseThrow(
+                () -> new CourseNotFoundException(courseId)
+        );
     }
 }

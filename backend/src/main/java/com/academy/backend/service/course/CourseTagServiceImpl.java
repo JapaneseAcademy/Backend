@@ -26,4 +26,10 @@ public class CourseTagServiceImpl implements CourseTagService {
                         .build()
                 ));
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Tag> getTagsByCourse(Course course) {
+        return courseTagRepository.findTagsByCourseId(course.getId());
+    }
 }

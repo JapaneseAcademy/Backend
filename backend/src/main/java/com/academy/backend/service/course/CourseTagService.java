@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface CourseTagService {
     public void createCourseTag(Course course, List<Tag> tags);
+
+    public List<Tag> getTagsByCourse(Course course);
 }

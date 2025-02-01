@@ -17,7 +17,6 @@ public class CourseTypeServiceImpl implements CourseTypeService {
 
     private final CourseTypeRepository courseTypeRepository;
 
-
     @Override
     @Transactional
     public List<CourseType> createCourseType(Course course, List<CourseTypeRequest> requests) {
@@ -34,5 +33,11 @@ public class CourseTypeServiceImpl implements CourseTypeService {
         });
 
         return courseTypes;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<CourseType> getCourseTypesByCourse(Course course) {
+        return courseTypeRepository.findByCourseId(course.getId());
     }
 }

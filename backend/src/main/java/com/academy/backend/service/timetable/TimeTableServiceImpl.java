@@ -36,4 +36,10 @@ public class TimeTableServiceImpl implements TimeTableService {
 
         return timeTables;
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<TimeTable> getTimeTablesByCourse(Course course) {
+        return timeTableRepository.findByCourseId(course.getId());
+    }
 }

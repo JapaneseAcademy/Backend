@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface TimeTableService {
     public List<TimeTable> createTimeTable(Course course, List<CourseTimeTableRequest> requests);
+
+    public List<TimeTable> getTimeTablesByCourse(Course course);
 }

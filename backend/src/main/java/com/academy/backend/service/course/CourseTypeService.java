@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface CourseTypeService {
     public List<CourseType> createCourseType(Course course, List<CourseTypeRequest> requests);
+
+    public List<CourseType> getCourseTypesByCourse(Course course);
 }
