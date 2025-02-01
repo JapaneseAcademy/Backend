@@ -1,7 +1,6 @@
 package com.academy.backend.service.course;
 
 import com.academy.backend.domain.course.Course;
-import com.academy.backend.domain.course.CourseTag;
 import com.academy.backend.domain.course.CourseType;
 import com.academy.backend.domain.course.Tag;
 import com.academy.backend.domain.member.Member;
@@ -105,5 +104,11 @@ public class CourseServiceImpl implements CourseService{
         return courseRepository.findById(courseId).orElseThrow(
                 () -> new CourseNotFoundException(courseId)
         );
+    }
+
+    @Override
+    public void deleteCourse(Long courseId) {
+        Course course = findCourse(courseId);
+        courseRepository.delete(course);
     }
 }

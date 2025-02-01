@@ -11,9 +11,9 @@ import java.util.List;
 public interface CourseService {
     public Course saveCourse(Member member, CourseCreateRequest request);
     public CourseCreateResponse createCourse(CourseCreateRequest request);
-
     public Course findCourse(Long courseId);
     public CourseResponse getCourse(Course course);
-
     public List<CourseResponse> getAllCourses();
+
+    public void deleteCourse(Long courseId);
 }
