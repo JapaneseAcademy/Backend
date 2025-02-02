@@ -3,6 +3,7 @@ package com.academy.backend.config.auth;
 import com.academy.backend.config.jwt.JwtProvider;
 import com.academy.backend.domain.member.Role;
 import com.academy.backend.dto.jwt.AuthToken;
+import com.academy.backend.service.oauth.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -15,10 +16,11 @@ public class AuthTokenGenerator {
     private static final String BEARER_TYPE = "Bearer";
 
     // access token: 1일, refresh token: 14일
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 14;
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24;
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 14;
 
     private final JwtProvider jwtProvider;
+    private final RefreshTokenService refreshTokenService;
 
     public AuthToken generate(String loginId, Role role) {
         long now = (new Date()).getTime();
@@ -27,6 +29,7 @@ public class AuthTokenGenerator {
 
         String accessToken = jwtProvider.accessTokenGenerate(loginId, role, accessTokenExpiredAt);
         String refreshToken = jwtProvider.refreshTokenGenerate(refreshTokenExpiredAt);
+        refreshTokenService.saveRefreshToken(loginId, role, refreshToken, REFRESH_TOKEN_EXPIRE_TIME);
 
         return AuthToken.of(BEARER_TYPE, accessToken, refreshToken);
     }
