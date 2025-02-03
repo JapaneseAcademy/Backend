@@ -6,11 +6,10 @@ import com.academy.backend.dto.request.oauth.RefreshTokenRequest;
 import com.academy.backend.dto.response.oauth.LoginResponse;
 import com.academy.backend.dto.response.oauth.RefreshTokenResponse;
 import com.academy.backend.service.member.MemberService;
+import com.academy.backend.service.oauth.AuthService;
 import com.academy.backend.service.oauth.KakaoOAuthService;
-import com.academy.backend.service.oauth.RefreshTokenService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +20,7 @@ public class AuthController {
 
     private final MemberService memberService;
     private final KakaoOAuthService kakaoOAuthService;
-    private final RefreshTokenService refreshTokenService;
+    private final AuthService authService;
 
     @PostMapping("/members")
     public ResponseEntity<LoginResponse> joinMember(@Valid @RequestBody JoinRequest request) {
@@ -39,7 +38,7 @@ public class AuthController {
 
     @PostMapping("/refresh")
     public ResponseEntity<RefreshTokenResponse> refresh(@RequestHeader("Authorization") String authorizationHeader, @Valid @RequestBody RefreshTokenRequest request) {
-        RefreshTokenResponse response = refreshTokenService.refresh(authorizationHeader, request);
+        RefreshTokenResponse response = authService.refresh(authorizationHeader, request);
 
         return ResponseEntity.ok(response);
     }

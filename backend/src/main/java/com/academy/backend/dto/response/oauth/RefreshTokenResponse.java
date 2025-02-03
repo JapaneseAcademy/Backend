@@ -12,11 +12,11 @@ public class RefreshTokenResponse {
     private String accessToken;
     private String refreshToken;
 
-    public static RefreshTokenResponse of(String accessToken, String refreshToken) {
+    public static RefreshTokenResponse of(AuthToken token) {
         try {
             return RefreshTokenResponse.builder()
-                    .accessToken(accessToken)
-                    .refreshToken(refreshToken)
+                    .accessToken(token.getAccessToken())
+                    .refreshToken(token.getRefreshToken())
                     .build();
         } catch (Exception e) {
             throw new TokenMappingException();
