@@ -1,7 +1,7 @@
 package com.academy.backend.dto.response.course;
 
 import com.academy.backend.domain.course.Course;
-import com.academy.backend.domain.course.CourseType;
+import com.academy.backend.domain.course.Description;
 import com.academy.backend.domain.course.Tag;
 import com.academy.backend.domain.timetable.TimeTable;
 import com.academy.backend.exception.course.CourseMappingException;
@@ -16,22 +16,22 @@ public class CourseResponse {
 
     private Long id;
     private String title;
-    private String description;
+    private Integer cost;
+    private List<DescriptionResponse> descriptions;
     private List<TimeTableResponse> timeTables;
-    private List<CourseTypeResponse> courseTypes;
     private List<TagResponse> tags;
 
-    public static CourseResponse of(Course course, List<TimeTable> timeTables, List<CourseType> courseTypes, List<Tag> tags) {
+    public static CourseResponse of(Course course, List<Description> descriptions, List<TimeTable> timeTables, List<Tag> tags) {
         try {
             return CourseResponse.builder()
                     .id(course.getId())
                     .title(course.getTitle())
-                    .description(course.getDescription())
+                    .cost(course.getCost())
+                    .descriptions(descriptions.stream()
+                            .map(DescriptionResponse::of)
+                            .toList())
                     .timeTables(timeTables.stream()
                             .map(TimeTableResponse::of)
-                            .toList())
-                    .courseTypes(courseTypes.stream()
-                            .map(CourseTypeResponse::of)
                             .toList())
                     .tags(tags.stream()
                             .map(TagResponse::of)

@@ -15,7 +15,6 @@ public class TimeTableResponse {
     private Weekday weekday;
     private LocalTime startTime;
     private LocalTime endTime;
-    private String classroom;
 
     public static TimeTableResponse of(TimeTable timeTable) {
         try {
@@ -23,7 +22,6 @@ public class TimeTableResponse {
                     .weekday(timeTable.getWeekday())
                     .startTime(timeTable.getStartTime())
                     .endTime(timeTable.getEndTime())
-                    .classroom(timeTable.getClassroom())
                     .build();
         } catch (Exception e) {
             throw new TimeTableMappingException();
