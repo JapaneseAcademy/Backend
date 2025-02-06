@@ -1,6 +1,5 @@
 package com.academy.backend.domain.course;
 
-import com.academy.backend.domain.member.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -9,35 +8,27 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.util.List;
-
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Course {
+public class Description {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "courseId")
+    @Column(name = "descriptionId")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "memberId")
+    @JoinColumn(name = "courseId")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Member member;
-
-    @Column(nullable = false, length = 100)
-    private String title;
+    private Course course;
 
     @Column(nullable = false)
-    private int cost;
-
-    private boolean isFeatured = false;
+    private String imageUrl;
 
     @Builder
-    public Course(Member member, String title, int cost) {
-        this.member = member;
-        this.title = title;
-        this.cost = cost;
+    public Description(Course course, String imageUrl) {
+        this.course = course;
+        this.imageUrl = imageUrl;
     }
 }
