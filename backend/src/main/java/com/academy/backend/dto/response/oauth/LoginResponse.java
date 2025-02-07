@@ -25,7 +25,7 @@ public class LoginResponse {
         this.loginId = member.getLoginId();
         this.name = member.getName();
         this.role = member.getRole();
-        this.isActive = member.isActive();
+        this.isActive = member.getIsActive();
         this.token = token;
         this.requiresSignUp = requiresSignUp;
     }

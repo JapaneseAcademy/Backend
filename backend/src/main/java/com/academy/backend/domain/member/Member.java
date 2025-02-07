@@ -33,7 +33,14 @@ public class Member extends BaseTimeEntity {
     private Role role;
 
     @Column(nullable = false)
-    private Boolean isActive = true;
+    private Boolean isActive;
+
+    @PrePersist
+    public void prePersist() {
+        if (isActive == null) {
+            isActive = true;
+        }
+    }
 
     @Builder
     public Member(String loginId, String name, String phone, LocalDate birth, Role role) {
