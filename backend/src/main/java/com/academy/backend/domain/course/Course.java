@@ -30,7 +30,7 @@ public class Course {
     private String title;
 
     @Column(nullable = false)
-    private int cost;
+    private Integer cost;
 
     private boolean isFeatured = false;
 

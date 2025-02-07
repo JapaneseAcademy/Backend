@@ -1,4 +1,4 @@
-package com.academy.backend.domain.course;
+package com.academy.backend.domain.enrollment;
 
 public enum Category {
     LIVE,
