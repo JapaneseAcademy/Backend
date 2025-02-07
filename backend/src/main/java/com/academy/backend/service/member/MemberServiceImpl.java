@@ -21,6 +21,8 @@ public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
     private final AuthTokenGenerator authTokenGenerator;
 
+    @Override
+    @Transactional
     public LoginResponse joinMember(JoinRequest request) {
 
         validateMemberDoesNotExist(request.getLoginId());
@@ -46,17 +48,15 @@ public class MemberServiceImpl implements MemberService{
         }
     }
 
+    @Override
     @Transactional(readOnly = true)
-    public MemberResponse getMemberByLoginId(String provider, Long memberId) {
-
-        String loginId = provider + memberId;
-        Member member = memberRepository.findByLoginId(loginId).orElseThrow(
+    public Member getMemberByLoginId(String loginId) {
+        return memberRepository.findByLoginId(loginId).orElseThrow(
                 () -> new UserNotFoundException(loginId)
         );
-
-        return MemberResponse.of(member);
     }
 
+    @Override
     @Transactional(readOnly = true)
     public Member getMemberById(Long id) {
         return memberRepository.findById(id).orElseThrow(

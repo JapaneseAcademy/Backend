@@ -6,7 +6,7 @@ import com.academy.backend.dto.response.MemberResponse;
 import com.academy.backend.dto.response.oauth.LoginResponse;
 
 public interface MemberService {
-    public MemberResponse getMemberByLoginId(String provider, Long userId);
-    public Member getMemberById(Long id);
-    public LoginResponse joinMember(JoinRequest request);
+    Member getMemberByLoginId(String loginId);
+    Member getMemberById(Long id);
+    LoginResponse joinMember(JoinRequest request);
 }
