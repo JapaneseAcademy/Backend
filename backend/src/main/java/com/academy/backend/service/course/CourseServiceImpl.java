@@ -5,7 +5,7 @@ import com.academy.backend.domain.course.Description;
 import com.academy.backend.domain.course.Tag;
 import com.academy.backend.domain.member.Member;
 import com.academy.backend.domain.timetable.TimeTable;
-import com.academy.backend.dto.request.CourseCreateRequest;
+import com.academy.backend.dto.request.course.CourseCreateRequest;
 import com.academy.backend.dto.response.course.CourseCreateResponse;
 import com.academy.backend.dto.response.course.CourseResponse;
 import com.academy.backend.exception.course.CourseNotFoundException;

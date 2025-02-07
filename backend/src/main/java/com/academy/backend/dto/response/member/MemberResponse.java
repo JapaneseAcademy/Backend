@@ -1,4 +1,4 @@
-package com.academy.backend.dto.response;
+package com.academy.backend.dto.response.member;
 
 import com.academy.backend.domain.member.Member;
 import com.academy.backend.domain.member.Role;

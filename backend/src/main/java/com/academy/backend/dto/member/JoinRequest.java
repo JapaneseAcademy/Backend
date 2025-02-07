@@ -1,4 +1,4 @@
-package com.academy.backend.dto.request;
+package com.academy.backend.dto.member;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;

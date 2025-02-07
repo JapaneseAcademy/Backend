@@ -1,4 +1,4 @@
-package com.academy.backend.dto.request;
+package com.academy.backend.dto.request.course;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;

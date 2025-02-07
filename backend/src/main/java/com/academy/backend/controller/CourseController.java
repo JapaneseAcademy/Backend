@@ -1,7 +1,6 @@
 package com.academy.backend.controller;
 
-import com.academy.backend.domain.course.Course;
-import com.academy.backend.dto.request.CourseCreateRequest;
+import com.academy.backend.dto.request.course.CourseCreateRequest;
 import com.academy.backend.dto.response.course.CourseCreateResponse;
 import com.academy.backend.dto.response.course.CourseResponse;
 import com.academy.backend.service.course.CourseService;
