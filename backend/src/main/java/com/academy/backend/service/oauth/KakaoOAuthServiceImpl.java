@@ -74,7 +74,6 @@ public class KakaoOAuthServiceImpl implements KakaoOAuthService{
                 .bodyToMono(KakaoUser.class)
                 .block();
 
-        System.out.println("kakaoUser.getId() = " + kakaoUser.getId());
         return kakaoUser.getId();
     }
 
