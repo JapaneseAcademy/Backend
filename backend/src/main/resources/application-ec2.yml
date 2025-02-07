@@ -13,5 +13,5 @@ spring:
 logging:
   level:
     root: INFO
-    org.springframework: WARN
-    com.academy.backend: WARN
+    org.springframework: INFO
+    com.academy.backend: INFO
