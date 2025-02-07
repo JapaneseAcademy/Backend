@@ -35,6 +35,8 @@ public class CourseServiceImpl implements CourseService{
                 .member(member)
                 .title(request.getTitle())
                 .cost(request.getCost())
+                .startDate(request.getStartDate())
+                .endDate(request.getEndDate())
                 .build();
 
         return courseRepository.save(course);

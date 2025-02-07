@@ -8,6 +8,7 @@ import com.academy.backend.exception.course.CourseMappingException;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -17,6 +18,8 @@ public class CourseResponse {
     private Long id;
     private String title;
     private Integer cost;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private List<DescriptionResponse> descriptions;
     private List<TimeTableResponse> timeTables;
     private List<TagResponse> tags;
@@ -27,6 +30,8 @@ public class CourseResponse {
                     .id(course.getId())
                     .title(course.getTitle())
                     .cost(course.getCost())
+                    .startDate(course.getStartDate())
+                    .endDate(course.getEndDate())
                     .descriptions(descriptions.stream()
                             .map(DescriptionResponse::of)
                             .toList())
