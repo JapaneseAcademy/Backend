@@ -10,13 +10,12 @@ import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Getter
-@Table(name = "COURSE_TAG")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CourseTag {
+public class Description {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "courseTagId")
+    @Column(name = "descriptionId")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -24,14 +23,12 @@ public class CourseTag {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Course course;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tagId")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private Tag tag;
+    @Column(nullable = false)
+    private String imageUrl;
 
     @Builder
-    public CourseTag(Course course, Tag tag) {
+    public Description(Course course, String imageUrl) {
         this.course = course;
-        this.tag = tag;
+        this.imageUrl = imageUrl;
     }
 }

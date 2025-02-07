@@ -5,6 +5,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Getter
@@ -16,11 +18,17 @@ public class Tag {
     @Column(name = "tagId")
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "courseId")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Course course;
+
     @Column(nullable = false, length = 30)
     private String label;
 
     @Builder
-    public Tag(String label) {
+    public Tag(Course course, String label) {
+        this.course = course;
         this.label = label;
     }
 }

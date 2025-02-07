@@ -32,14 +32,12 @@ public class TimeTable {
 
     private LocalTime startTime;
     private LocalTime endTime;
-    private String classroom;
 
     @Builder
-    public TimeTable(Course course, Weekday weekday, LocalTime startTime, LocalTime endTime, String classroom) {
+    public TimeTable(Course course, Weekday weekday, LocalTime startTime, LocalTime endTime) {
         this.course = course;
         this.weekday = weekday;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.classroom = classroom;
     }
 }

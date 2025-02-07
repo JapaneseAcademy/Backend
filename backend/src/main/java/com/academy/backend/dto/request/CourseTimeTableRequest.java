@@ -19,7 +19,4 @@ public class CourseTimeTableRequest {
 
     @NotNull(message = "종료 시간은 필수 입력 사항입니다.")
     private LocalTime endTime;
-
-    @NotNull(message = "강의실 위치는 필수 입력 사항입니다.")
-    private String classroom;
 }

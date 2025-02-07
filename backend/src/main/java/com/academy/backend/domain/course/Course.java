@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -27,13 +29,15 @@ public class Course {
     @Column(nullable = false, length = 100)
     private String title;
 
-    @Column(nullable = false, length = 500)
-    private String description;
+    @Column(nullable = false)
+    private int cost;
+
+    private boolean isFeatured = false;
 
     @Builder
-    public Course(Member member, String title, String description) {
+    public Course(Member member, String title, int cost) {
         this.member = member;
         this.title = title;
-        this.description = description;
+        this.cost = cost;
     }
 }

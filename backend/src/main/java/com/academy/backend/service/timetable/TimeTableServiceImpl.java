@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,22 +18,16 @@ public class TimeTableServiceImpl implements TimeTableService {
 
     @Override
     @Transactional
-    public List<TimeTable> createTimeTable(Course course, List<CourseTimeTableRequest> requests) {
-        List<TimeTable> timeTables = new ArrayList<>();
-
+    public void createTimeTable(Course course, List<CourseTimeTableRequest> requests) {
         requests.forEach(schedule -> {
             TimeTable timeTable = TimeTable.builder()
                     .course(course)
                     .weekday(schedule.getWeekday())
                     .startTime(schedule.getStartTime())
                     .endTime(schedule.getEndTime())
-                    .classroom(schedule.getClassroom())
                     .build();
-            TimeTable saved = timeTableRepository.save(timeTable);
-            timeTables.add(saved);
+            timeTableRepository.save(timeTable);
         });
-
-        return timeTables;
     }
 
     @Override
