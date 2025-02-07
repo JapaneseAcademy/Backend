@@ -5,6 +5,7 @@ import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,6 +20,12 @@ public class CourseCreateRequest {
     @NotNull(message = "강의 수강료는 필수 입력 정보입니다.")
     @Min(value = 1, message = "강의 수강료는 최소 1원 이상이어야 합니다.")
     private Integer cost;
+
+    @NotNull(message = "강의 시작 일자는 필수 입력 정보입니다.")
+    private LocalDate startDate;
+
+    @NotNull(message = "강의 종료 일자는 필수 입력 정보입니다.")
+    private LocalDate endDate;
 
     private List<String> descriptions = Collections.emptyList();
     private List<String> tags = Collections.emptyList();
