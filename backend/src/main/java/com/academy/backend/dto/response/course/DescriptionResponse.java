@@ -9,11 +9,13 @@ import lombok.Getter;
 @Builder
 public class DescriptionResponse {
 
+    private Long id;
     private String imageUrl;
 
     public static DescriptionResponse of(Description description) {
         try {
             return DescriptionResponse.builder()
+                    .id(description.getId())
                     .imageUrl(description.getImageUrl())
                     .build();
         } catch (Exception e) {
