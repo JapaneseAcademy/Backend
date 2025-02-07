@@ -34,12 +34,4 @@ public class LoginResponse {
         this.loginId = loginId;
         this.requiresSignUp = requiresSignUp;
     }
-
-    public LoginResponse(Long id, String name, Role role, boolean isActive, AuthToken token) {
-        this.id = id;
-        this.name = name;
-        this.role = role;
-        this.isActive = isActive;
-        this.token = token;
-    }
 }

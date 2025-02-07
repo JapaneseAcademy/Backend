@@ -36,7 +36,7 @@ public class MemberServiceImpl implements MemberService{
         memberRepository.save(member);
         AuthToken token = authTokenGenerator.generate(member.getLoginId(), member.getRole());
 
-        return new LoginResponse(member.getId(), member.getName(), member.getRole(), member.isActive(), token);
+        return new LoginResponse(member, token, false);
     }
 
     @Transactional(readOnly = true)
