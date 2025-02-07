@@ -1,6 +1,6 @@
 package com.academy.backend.controller;
 
-import com.academy.backend.dto.member.JoinRequest;
+import com.academy.backend.dto.request.member.JoinRequest;
 import com.academy.backend.dto.request.oauth.KakaoOAuthRequest;
 import com.academy.backend.dto.response.oauth.LoginResponse;
 import com.academy.backend.service.member.MemberService;
