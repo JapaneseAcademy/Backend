@@ -50,7 +50,8 @@ public class AuthServiceImpl implements AuthService{
         return storedToken.split(":")[0];
     }
 
-    private String extractToken(String header) {
+    @Override
+    public String extractToken(String header) {
         if (header == null || !header.startsWith("Bearer ")) {
             throw new TokenNotFoundException();
         }

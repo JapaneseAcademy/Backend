@@ -4,7 +4,8 @@ import com.academy.backend.dto.request.oauth.RefreshTokenRequest;
 import com.academy.backend.dto.response.oauth.RefreshTokenResponse;
 
 public interface AuthService {
-    public RefreshTokenResponse refresh(String header, RefreshTokenRequest request);
+    RefreshTokenResponse refresh(String header, RefreshTokenRequest request);
 
-    public void logout(String header);
+    String extractToken(String header);
+    void logout(String header);
 }
