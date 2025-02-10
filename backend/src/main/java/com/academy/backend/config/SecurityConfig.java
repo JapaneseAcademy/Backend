@@ -24,6 +24,20 @@ public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
 
+    String[] publicEndpoints= {
+            "/h2-console/**",
+            "/api/v1/test/**",
+            "/api/v1/auth/**"
+    };
+
+    String[] publicGetEndpoints = {
+            "/api/v1/courses"
+    };
+
+    String[] publicPostEndpoints = {
+            "/api/v1/courses"
+    };
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -31,8 +45,9 @@ public class SecurityConfig {
                 .cors((SecurityConfig::corsAllow))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/h2-console/**", "/api/v1/test/**", "/api/v1/auth/**").permitAll() // 여러 경로를 한 줄로 그룹화
-                        .requestMatchers(HttpMethod.POST, "api/v1/courses").hasRole("INSTRUCTOR")
+                        .requestMatchers(publicEndpoints).permitAll() // 여러 경로를 한 줄로 그룹화
+                        .requestMatchers(HttpMethod.GET, publicGetEndpoints).permitAll()
+                        .requestMatchers(HttpMethod.POST, publicPostEndpoints).hasAuthority("ROLE_INSTRUCTOR")
                         .anyRequest().authenticated() // 나머지 요청 인증 필요
                 )
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))

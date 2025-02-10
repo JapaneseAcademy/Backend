@@ -53,8 +53,6 @@ public class JwtFilter extends HttpFilter {
                 UsernamePasswordAuthenticationToken authentication = jwtProvider.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
-                authentication.getAuthorities().forEach(authority -> System.out.println(authority.getAuthority()));
-
                 chain.doFilter(request, response);
                 return;
             }
