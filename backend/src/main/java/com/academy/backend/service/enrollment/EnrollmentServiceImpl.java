@@ -73,4 +73,15 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 
         return enrollments.stream().map(EnrollmentResponse::of).toList();
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public EnrollmentResponse getEnrollmentById(Long enrollmentId) {
+        // TODO: 사용자 검증 로직 필요
+        // TODO: EnrollmentResponse에 Review 추가
+        Enrollment enrollment = enrollmentRepository.findById(enrollmentId).orElseThrow(
+                () -> new RuntimeException("there is no enrollment with id : " + enrollmentId));
+
+        return EnrollmentResponse.of(enrollment);
+    }
 }

@@ -30,4 +30,11 @@ public class EnrollmentController {
 
         return ResponseEntity.ok(enrollments);
     }
+
+    @GetMapping("/{enrollmentId}")
+    public ResponseEntity<EnrollmentResponse> getEnrollmentById(@PathVariable Long enrollmentId) {
+        EnrollmentResponse enrollment = enrollmentService.getEnrollmentById(enrollmentId);
+
+        return ResponseEntity.ok(enrollment);
+    }
 }
