@@ -6,6 +6,7 @@ import com.academy.backend.domain.enrollment.Enrollment;
 import com.academy.backend.domain.member.Member;
 import com.academy.backend.dto.request.enrollment.EnrollmentCreateRequest;
 import com.academy.backend.dto.response.course.CourseResponse;
+import com.academy.backend.dto.response.enrollment.EnrollmentResponse;
 import com.academy.backend.repository.EnrollmentRepository;
 import com.academy.backend.service.course.CourseService;
 import com.academy.backend.service.member.MemberService;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -59,5 +61,16 @@ public class EnrollmentServiceImpl implements EnrollmentService{
                 .build();
 
         enrollmentRepository.save(enrollment);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<EnrollmentResponse> getEnrollments(String header) {
+        String token = authService.extractToken(header);
+        String loginId = jwtProvider.getLoginIdFromAccessToken(token);
+
+        List<Enrollment> enrollments = enrollmentRepository.findEnrollmentsByLoginId(loginId);
+
+        return enrollments.stream().map(EnrollmentResponse::of).toList();
     }
 }
