@@ -10,4 +10,5 @@ public interface EnrollmentService {
     void createEnrollment(String header, EnrollmentCreateRequest request);
     List<EnrollmentResponse> getEnrollments(String header);
     EnrollmentResponse getEnrollmentById(Long enrollmentId);
+    Enrollment getEnrollmentEntityById(Long enrollmentId);
 }
