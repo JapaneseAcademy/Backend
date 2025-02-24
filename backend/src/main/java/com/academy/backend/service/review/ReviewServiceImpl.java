@@ -1,13 +1,22 @@
 package com.academy.backend.service.review;
 
+import com.academy.backend.converter.ReviewConverter;
+import com.academy.backend.domain.course.Course;
 import com.academy.backend.domain.enrollment.Enrollment;
 import com.academy.backend.domain.review.Review;
-import com.academy.backend.dto.request.enrollment.ReviewCreateRequest;
-import com.academy.backend.dto.response.enrollment.ReviewResponse;
+import com.academy.backend.dto.request.review.ReviewCreateRequest;
+import com.academy.backend.dto.response.review.ReviewListResponse;
+import com.academy.backend.dto.response.review.ReviewResponse;
+import com.academy.backend.exception.review.DuplicateReviewException;
+import com.academy.backend.exception.review.ReviewNotFoundException;
 import com.academy.backend.repository.ReviewRepository;
 import com.academy.backend.service.common.S3Service;
+import com.academy.backend.service.course.CourseService;
 import com.academy.backend.service.enrollment.EnrollmentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,13 +29,17 @@ public class ReviewServiceImpl implements ReviewService {
 
     private final EnrollmentService enrollmentService;
     private final ReviewImageService reviewImageService;
+    private final CourseService courseService;
     private final S3Service s3Service;
 
     private final ReviewRepository reviewRepository;
 
+    private final String path = "reviews/";
+
     private Review saveReview(Enrollment enrollment, ReviewCreateRequest request){
         Review review = Review.builder()
                 .enrollment(enrollment)
+                .title(request.getTitle())
                 .review(request.getReview())
                 .isAnonymous(request.getIsAnonymous())
                 .build();
@@ -34,58 +47,55 @@ public class ReviewServiceImpl implements ReviewService {
         return reviewRepository.save(review);
     }
 
-    private Review saveReview(Enrollment enrollment, String description, Boolean isAnonymous) {
-        Review review = Review.builder()
-                .enrollment(enrollment)
-                .review(description)
-                .isAnonymous(isAnonymous)
-                .build();
-
-        return reviewRepository.save(review);
-    }
-
     @Override
     @Transactional
-    public void createReview(String header, ReviewCreateRequest request, MultipartFile image) {
+    public void createReview(String header, ReviewCreateRequest request, List<MultipartFile> images) {
         // TODO: 수강내역-사용자가 맞는지 검증 로직 필요
-        // TODO: 이미 리뷰가 있는 결제 내역이라면 예외 처리 추가
+        String memberName = "dding";
+
+        validateWithEnrollmentId(request.getEnrollmentId());
+
         Enrollment enrollment = enrollmentService.getEnrollmentEntityById(request.getEnrollmentId());
         Review review = saveReview(enrollment, request);
 
-        if (image != null) {
-            System.out.println("@@@@@ not null image");
-        }
-    }
+        if (images != null && !images.isEmpty()) {
+            List<String> imageUrls = images.stream()
+                    .map(image -> s3Service.uploadImage(image, path))
+                    .toList();
 
-    @Override
-    @Transactional
-    public void createReview(String header, Long enrollmentId, String description, Boolean isAnonymous, List<MultipartFile> images) {
-        Enrollment enrollment = enrollmentService.getEnrollmentEntityById(enrollmentId);
-        Review review = saveReview(enrollment, description, isAnonymous);
-
-        if (!images.isEmpty()) {
-            images.forEach(image -> {
-                String imageUrl = s3Service.uploadImage(image);
-                reviewImageService.createReviewImage(review, imageUrl);
-            });
+            reviewImageService.createReviewImage(review, imageUrls);
         }
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<ReviewResponse> getAllReviews() {
-        return reviewRepository.findAll().stream().map(ReviewResponse::of).toList();
+    public List<ReviewResponse> getAllReviews(Integer page) {
+        Pageable pageable = PageRequest.of(page, 5);
+        Page<Review> reviews = reviewRepository.findAll(pageable);
+//        ReviewConverter.toReviewListResponse(reviews);
+        return null;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<ReviewResponse> getReviewsByCourseId(Long courseId) {
-        return reviewRepository.findByCourseId(courseId).stream().map(ReviewResponse::of).toList();
+    public ReviewListResponse getReviewsByCourseId(Integer page, Long courseId) {
+        Course course = courseService.findCourse(courseId);
+
+        Pageable pageable = PageRequest.of(page, 5);
+        Page<Review> reviews = reviewRepository.findByCourseId(courseId, pageable);
+
+        return ReviewConverter.toReviewListResponse(reviews, course.getTitle());
     }
 
     @Override
     @Transactional(readOnly = true)
     public Review getReviewById(Long reviewId) {
-        return reviewRepository.findById(reviewId).orElseThrow(() -> new RuntimeException("no review"));
+        return reviewRepository.findById(reviewId).orElseThrow(() -> new ReviewNotFoundException(reviewId));
+    }
+
+    private void validateWithEnrollmentId(Long enrollmentId) {
+        if (reviewRepository.existsByEnrollmentId(enrollmentId)) {
+            throw new DuplicateReviewException(enrollmentId);
+        }
     }
 }

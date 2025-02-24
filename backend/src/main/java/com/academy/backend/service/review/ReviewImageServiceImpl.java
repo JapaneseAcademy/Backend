@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Stream;
+
 @Service
 @RequiredArgsConstructor
 public class ReviewImageServiceImpl implements ReviewImageService{
@@ -14,12 +17,12 @@ public class ReviewImageServiceImpl implements ReviewImageService{
     private final ReviewImageRepository reviewImageRepository;
 
     @Override
-    @Transactional
-    public void createReviewImage(Review review, String imageUrl) {
-        ReviewImage reviewImage = ReviewImage.builder()
-                .review(review)
-                .imageUrl(imageUrl)
-                .build();
-        reviewImageRepository.save(reviewImage);
+    public void createReviewImage(Review review, List<String> imageUrls) {
+        imageUrls.stream()
+                .map(imageUrl -> ReviewImage.builder()
+                            .review(review)
+                            .imageUrl(imageUrl)
+                            .build())
+                .forEach(reviewImageRepository::save);
     }
 }
