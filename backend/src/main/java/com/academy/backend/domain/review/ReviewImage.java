@@ -1,16 +1,15 @@
 package com.academy.backend.domain.review;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class ReviewImage {
 
     @Id
@@ -24,10 +23,4 @@ public class ReviewImage {
     private Review review;
 
     private String imageUrl;
-
-    @Builder
-    public ReviewImage(Review review, String imageUrl) {
-        this.review = review;
-        this.imageUrl = imageUrl;
-    }
 }
