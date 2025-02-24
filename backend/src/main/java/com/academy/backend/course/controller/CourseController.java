@@ -1,7 +1,6 @@
 package com.academy.backend.course.controller;
 
 import com.academy.backend.course.dto.request.CourseCreateRequest;
-import com.academy.backend.course.dto.response.CourseCreateResponse;
 import com.academy.backend.course.dto.response.CourseResponse;
 import com.academy.backend.course.service.CourseService;
 import jakarta.validation.Valid;
@@ -25,10 +24,10 @@ public class CourseController {
     }
 
     @PostMapping("")
-    public ResponseEntity<CourseCreateResponse> createCourse(@Valid @RequestBody CourseCreateRequest request) {
-        CourseCreateResponse response = courseService.createCourse(request);
+    public ResponseEntity<?> createCourse(@Valid @RequestBody CourseCreateRequest request) {
+        courseService.createCourse(request);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/{courseId}")

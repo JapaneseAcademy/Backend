@@ -3,14 +3,13 @@ package com.academy.backend.course.service;
 import com.academy.backend.course.domain.Course;
 import com.academy.backend.course.domain.Description;
 import com.academy.backend.course.domain.Tag;
-import com.academy.backend.member.domain.Member;
-import com.academy.backend.timeTable.domain.TimeTable;
 import com.academy.backend.course.dto.request.CourseCreateRequest;
-import com.academy.backend.course.dto.response.CourseCreateResponse;
 import com.academy.backend.course.dto.response.CourseResponse;
-import com.academy.backend.exception.course.CourseNotFoundException;
 import com.academy.backend.course.repository.CourseRepository;
+import com.academy.backend.exception.course.CourseNotFoundException;
+import com.academy.backend.member.domain.Member;
 import com.academy.backend.member.service.MemberService;
+import com.academy.backend.timeTable.domain.TimeTable;
 import com.academy.backend.timeTable.service.TimeTableService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -37,6 +36,9 @@ public class CourseServiceImpl implements CourseService{
                 .cost(request.getCost())
                 .startDate(request.getStartDate())
                 .endDate(request.getEndDate())
+                .isLive(request.getIsLive())
+                .isOnline(request.getIsOnline())
+                .isRecorded(request.getIsRecorded())
                 .build();
 
         return courseRepository.save(course);
@@ -44,8 +46,9 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     @Transactional
-    public CourseCreateResponse createCourse(CourseCreateRequest request) {
-        // 관리자 ID로 수정 필요
+    public void createCourse(CourseCreateRequest request) {
+
+        // TODO: 관리자 ID로 수정 필요
         Member member = memberService.getMemberById(1L);
         Course course = saveCourse(member, request);
 
@@ -59,8 +62,6 @@ public class CourseServiceImpl implements CourseService{
 
         // 수업 시간표 생성
         timeTableService.createTimeTable(course, request.getTimetables());
-
-        return CourseCreateResponse.of(course);
     }
 
     @Override

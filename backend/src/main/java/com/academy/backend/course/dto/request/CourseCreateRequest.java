@@ -27,6 +27,15 @@ public class CourseCreateRequest {
     @NotNull(message = "강의 종료 일자는 필수 입력 정보입니다.")
     private LocalDate endDate;
 
+    @NotNull(message = "가능한 강의 유형은 필수 입력 정보입니다.")
+    private Boolean isLive;
+
+    @NotNull(message = "가능한 강의 유형은 필수 입력 정보입니다.")
+    private Boolean isOnline;
+
+    @NotNull(message = "가능한 강의 유형은 필수 입력 정보입니다.")
+    private Boolean isRecorded;
+
     private List<String> descriptions = Collections.emptyList();
     private List<String> tags = Collections.emptyList();
 
