@@ -88,7 +88,7 @@ public class EnrollmentServiceImpl implements EnrollmentService{
     @Override
     @Transactional(readOnly = true)
     public Enrollment getEnrollmentEntityById(Long enrollmentId) {
-        return enrollmentRepository.findById(enrollmentId).orElseThrow(
-                () -> new RuntimeException("there is no enrollment with id : " + enrollmentId));
+        return enrollmentRepository.findById(enrollmentId)
+                .orElseThrow(() -> new RuntimeException("Enrollment not found with id " + enrollmentId));
     }
 }
