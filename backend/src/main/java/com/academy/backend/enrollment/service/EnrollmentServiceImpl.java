@@ -2,7 +2,9 @@ package com.academy.backend.enrollment.service;
 
 import com.academy.backend.config.jwt.JwtProvider;
 import com.academy.backend.course.domain.Course;
+import com.academy.backend.enrollment.domain.Category;
 import com.academy.backend.enrollment.domain.Enrollment;
+import com.academy.backend.exception.enrollment.UnavailableCategoryException;
 import com.academy.backend.member.domain.Member;
 import com.academy.backend.enrollment.dto.request.EnrollmentCreateRequest;
 import com.academy.backend.enrollment.dto.response.EnrollmentResponse;
@@ -33,7 +35,7 @@ public class EnrollmentServiceImpl implements EnrollmentService{
     @Transactional
     public void createEnrollment(String header, EnrollmentCreateRequest request) {
         /***********************************
-         * 결제 관련 api 연결하고 비즈니스 로직 구현해야 함
+         * TODO: 결제 관련 api 연결하고 비즈니스 로직 구현해야 함
          ************************************/
 
         // 사용자 식별
@@ -41,13 +43,21 @@ public class EnrollmentServiceImpl implements EnrollmentService{
         String loginId = jwtProvider.getLoginIdFromAccessToken(token);
         Member member = memberService.getMemberByLoginId(loginId);
 
-        // 수강 정보 등록
-        System.out.println(request.getCategory());
         Course course = courseService.findCourse(request.getCourseId());
+        validateCategory(course, request.getCategory());
+
+        // 수강 정보 등록
         saveEnrollment(member, course, request);
     }
 
-    @Transactional
+    private void validateCategory(Course course, Category category) {
+        if (category.equals(Category.LIVE) && !course.getIsLive()
+                || category.equals(Category.ONLINE) && !course.getIsOnline()
+                || category.equals(Category.RECORDED) && !course.getIsRecorded()) {
+            throw new UnavailableCategoryException(course.getId());
+        }
+    }
+
     private void saveEnrollment(Member member, Course course, EnrollmentCreateRequest request) {
         Enrollment enrollment = Enrollment.builder()
                 .member(member)
