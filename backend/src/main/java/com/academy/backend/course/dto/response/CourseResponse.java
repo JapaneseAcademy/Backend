@@ -1,10 +1,6 @@
 package com.academy.backend.course.dto.response;
 
-import com.academy.backend.course.domain.Course;
-import com.academy.backend.course.domain.Description;
-import com.academy.backend.course.domain.Tag;
-import com.academy.backend.timeTable.domain.TimeTable;
-import com.academy.backend.exception.course.CourseMappingException;
+import com.academy.backend.timeTable.dto.response.TimeTableResponse;
 import lombok.Builder;
 import lombok.Getter;
 

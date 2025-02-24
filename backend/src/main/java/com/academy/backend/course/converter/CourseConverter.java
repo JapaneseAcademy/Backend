@@ -4,7 +4,8 @@ import com.academy.backend.course.domain.Course;
 import com.academy.backend.course.domain.Description;
 import com.academy.backend.course.domain.Tag;
 import com.academy.backend.course.dto.response.CourseResponse;
-import com.academy.backend.course.dto.response.TimeTableResponse;
+import com.academy.backend.timeTable.converter.TimeTableConverter;
+import com.academy.backend.timeTable.dto.response.TimeTableResponse;
 import com.academy.backend.exception.course.CourseMappingException;
 import com.academy.backend.timeTable.domain.TimeTable;
 
@@ -14,8 +15,14 @@ public class CourseConverter {
 
     public static CourseResponse toCourseResponse(Course course, List<Description> descriptions, List<TimeTable> timeTables, List<Tag> tags) {
         try {
-            List<String> descriptionImageUrls = descriptions.stream().map(Description::getImageUrl).toList();
-            List<String> tagLabels = tags.stream().map(Tag::getLabel).toList();
+            List<String> descriptionImageUrls = descriptions.stream()
+                    .map(Description::getImageUrl).toList();
+
+            List<String> tagLabels = tags.stream()
+                    .map(Tag::getLabel).toList();
+
+            List<TimeTableResponse> timeTableResponses = timeTables.stream()
+                    .map(TimeTableConverter::toTimeTableResponse).toList();
 
             return CourseResponse.builder()
                     .id(course.getId())
@@ -27,9 +34,7 @@ public class CourseConverter {
                     .isOnline(course.getIsOnline())
                     .isRecorded(course.getIsRecorded())
                     .descriptions(descriptionImageUrls)
-                    .timeTables(timeTables.stream()
-                            .map(TimeTableResponse::of)
-                            .toList())
+                    .timeTables(timeTableResponses)
                     .tags(tagLabels)
                     .build();
         } catch (Exception e) {
