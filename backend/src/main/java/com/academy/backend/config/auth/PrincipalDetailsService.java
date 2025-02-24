@@ -1,7 +1,7 @@
 package com.academy.backend.config.auth;
 
 import com.academy.backend.exception.member.UserNotFoundException;
-import com.academy.backend.repository.MemberRepository;
+import com.academy.backend.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

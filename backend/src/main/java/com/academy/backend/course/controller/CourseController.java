@@ -1,0 +1,46 @@
+package com.academy.backend.course.controller;
+
+import com.academy.backend.course.dto.request.CourseCreateRequest;
+import com.academy.backend.course.dto.response.CourseCreateResponse;
+import com.academy.backend.course.dto.response.CourseResponse;
+import com.academy.backend.course.service.CourseService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RequestMapping("/api/v1/courses")
+@RestController
+@RequiredArgsConstructor
+public class CourseController {
+
+    private final CourseService courseService;
+
+    @GetMapping("")
+    public ResponseEntity<List<CourseResponse>> getAllCourses() {
+        return ResponseEntity.ok(courseService.getAllCourses());
+    }
+
+    @PostMapping("")
+    public ResponseEntity<CourseCreateResponse> createCourse(@Valid @RequestBody CourseCreateRequest request) {
+        CourseCreateResponse response = courseService.createCourse(request);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @GetMapping("/{courseId}")
+    public ResponseEntity<CourseResponse> getCourse(@PathVariable Long courseId) {
+        CourseResponse response = courseService.getCourse(courseId);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{courseId}")
+    public ResponseEntity<?> deleteCourse(@PathVariable Long courseId) {
+        courseService.deleteCourse(courseId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+}

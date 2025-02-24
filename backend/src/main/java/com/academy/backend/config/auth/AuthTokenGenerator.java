@@ -1,9 +1,9 @@
 package com.academy.backend.config.auth;
 
 import com.academy.backend.config.jwt.JwtProvider;
-import com.academy.backend.domain.member.Role;
-import com.academy.backend.dto.jwt.AuthToken;
-import com.academy.backend.service.oauth.RefreshTokenService;
+import com.academy.backend.member.domain.Role;
+import com.academy.backend.auth.dto.jwt.AuthToken;
+import com.academy.backend.auth.service.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

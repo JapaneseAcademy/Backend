@@ -2,7 +2,7 @@ package com.academy.backend.config.jwt;
 
 import com.academy.backend.config.auth.PrincipalDetails;
 import com.academy.backend.config.auth.PrincipalDetailsService;
-import com.academy.backend.domain.member.Role;
+import com.academy.backend.member.domain.Role;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

@@ -1,6 +1,6 @@
 package com.academy.backend.config.auth;
 
-import com.academy.backend.domain.member.Member;
+import com.academy.backend.member.domain.Member;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
