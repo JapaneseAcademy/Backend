@@ -20,30 +20,10 @@ public class CourseResponse {
     private Integer cost;
     private LocalDate startDate;
     private LocalDate endDate;
-    private List<DescriptionResponse> descriptions;
+    private Boolean isLive;
+    private Boolean isOnline;
+    private Boolean isRecorded;
+    private List<String> descriptions;
     private List<TimeTableResponse> timeTables;
-    private List<TagResponse> tags;
-
-    public static CourseResponse of(Course course, List<Description> descriptions, List<TimeTable> timeTables, List<Tag> tags) {
-        try {
-            return CourseResponse.builder()
-                    .id(course.getId())
-                    .title(course.getTitle())
-                    .cost(course.getCost())
-                    .startDate(course.getStartDate())
-                    .endDate(course.getEndDate())
-                    .descriptions(descriptions.stream()
-                            .map(DescriptionResponse::of)
-                            .toList())
-                    .timeTables(timeTables.stream()
-                            .map(TimeTableResponse::of)
-                            .toList())
-                    .tags(tags.stream()
-                            .map(TagResponse::of)
-                            .toList())
-                    .build();
-        } catch (Exception e) {
-            throw new CourseMappingException();
-        }
-    }
+    private List<String> tags;
 }

@@ -12,7 +12,6 @@ import java.time.LocalTime;
 @Builder
 public class TimeTableResponse {
 
-    private Long id;
     private Weekday weekday;
     private LocalTime startTime;
     private LocalTime endTime;
@@ -20,7 +19,6 @@ public class TimeTableResponse {
     public static TimeTableResponse of(TimeTable timeTable) {
         try {
             return TimeTableResponse.builder()
-                    .id(timeTable.getId())
                     .weekday(timeTable.getWeekday())
                     .startTime(timeTable.getStartTime())
                     .endTime(timeTable.getEndTime())

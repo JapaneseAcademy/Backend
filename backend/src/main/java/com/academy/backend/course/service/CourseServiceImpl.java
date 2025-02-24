@@ -1,5 +1,6 @@
 package com.academy.backend.course.service;
 
+import com.academy.backend.course.converter.CourseConverter;
 import com.academy.backend.course.domain.Course;
 import com.academy.backend.course.domain.Description;
 import com.academy.backend.course.domain.Tag;
@@ -72,7 +73,7 @@ public class CourseServiceImpl implements CourseService{
         List<Description> descriptions = descriptionService.getDescriptionsByCourse(course);
         List<Tag> tags = tagService.getTagsByCourse(course);
 
-        return CourseResponse.of(course, descriptions, timeTables, tags);
+        return CourseConverter.toCourseResponse(course, descriptions, timeTables, tags);
     }
 
     @Override
