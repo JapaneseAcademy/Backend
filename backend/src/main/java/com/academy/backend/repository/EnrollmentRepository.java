@@ -7,10 +7,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
 
-    @Query("SELECT e FROM Enrollment e JOIN FETCH e.member m WHERE m.loginId = :loginId")
+    @Query("SELECT e " +
+            "FROM Enrollment e " +
+            "JOIN FETCH e.member m " +
+            "WHERE m.loginId = :loginId")
     List<Enrollment> findEnrollmentsByLoginId(@Param("loginId") String loginId);
 }
