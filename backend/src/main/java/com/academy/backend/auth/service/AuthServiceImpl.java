@@ -1,6 +1,7 @@
 package com.academy.backend.auth.service;
 
 import com.academy.backend.config.auth.AuthTokenGenerator;
+import com.academy.backend.config.auth.PrincipalDetailsService;
 import com.academy.backend.config.jwt.JwtProvider;
 import com.academy.backend.member.domain.Role;
 import com.academy.backend.auth.dto.jwt.AuthToken;
@@ -59,12 +60,10 @@ public class AuthServiceImpl implements AuthService{
         return header.substring(7);
     }
 
-    // TODO: 로그아웃 로직 구현
     @Override
     @Transactional
-    public void logout(String header) {
-        String token = extractToken(header);
-        String loginId = jwtProvider.getLoginIdFromAccessToken(token);
+    public void logout() {
+        String loginId = PrincipalDetailsService.getCurrentLoginId();
         refreshTokenService.deleteRefreshToken(loginId);
     }
 }

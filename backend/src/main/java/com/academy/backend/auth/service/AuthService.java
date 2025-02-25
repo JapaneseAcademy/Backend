@@ -7,5 +7,5 @@ public interface AuthService {
     RefreshTokenResponse refresh(String header, RefreshTokenRequest request);
 
     String extractToken(String header);
-    void logout(String header);
+    void logout();
 }
