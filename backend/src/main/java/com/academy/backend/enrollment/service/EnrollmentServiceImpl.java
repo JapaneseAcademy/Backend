@@ -1,14 +1,13 @@
 package com.academy.backend.enrollment.service;
 
-import com.academy.backend.auth.service.AuthService;
 import com.academy.backend.config.auth.PrincipalDetailsService;
-import com.academy.backend.config.jwt.JwtProvider;
 import com.academy.backend.course.domain.Course;
 import com.academy.backend.course.service.CourseService;
 import com.academy.backend.enrollment.converter.EnrollmentConverter;
 import com.academy.backend.enrollment.domain.Category;
 import com.academy.backend.enrollment.domain.Enrollment;
 import com.academy.backend.enrollment.dto.request.EnrollmentCreateRequest;
+import com.academy.backend.enrollment.dto.response.EnrollmentDetailResponse;
 import com.academy.backend.enrollment.dto.response.EnrollmentResponse;
 import com.academy.backend.enrollment.repository.EnrollmentRepository;
 import com.academy.backend.exception.auth.UserForbiddenException;
@@ -16,6 +15,8 @@ import com.academy.backend.exception.enrollment.EnrollmentNotFoundException;
 import com.academy.backend.exception.enrollment.UnavailableCategoryException;
 import com.academy.backend.member.domain.Member;
 import com.academy.backend.member.service.MemberService;
+import com.academy.backend.review.domain.Review;
+import com.academy.backend.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,11 +30,9 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 
     private final MemberService memberService;
     private final CourseService courseService;
-    private final AuthService authService;
+    private final ReviewService reviewService;
 
     private final EnrollmentRepository enrollmentRepository;
-
-    private final JwtProvider jwtProvider;
 
     @Override
     @Transactional
@@ -80,12 +79,15 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 
         List<Enrollment> enrollments = enrollmentRepository.findEnrollmentsByMemberId(memberId);
 
-        return enrollments.stream().map(EnrollmentConverter::toEnrollmentResponse).toList();
+        return enrollments.stream().map(enrollment -> {
+            Boolean reviewed = reviewService.getExistsByEnrollmentId(enrollment.getId());
+            return EnrollmentConverter.toEnrollmentResponse(enrollment, reviewed);
+        }).toList();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public EnrollmentResponse getEnrollmentById(Long enrollmentId) {
+    public EnrollmentDetailResponse getEnrollmentById(Long enrollmentId) {
         // TODO: EnrollmentResponse에 Review 추가
         Enrollment enrollment = enrollmentRepository.findById(enrollmentId)
                 .orElseThrow(() -> new EnrollmentNotFoundException(enrollmentId));
@@ -95,13 +97,8 @@ public class EnrollmentServiceImpl implements EnrollmentService{
             throw new UserForbiddenException(memberId);
         }
 
-        return EnrollmentConverter.toEnrollmentResponse(enrollment);
-    }
+        Review review = reviewService.getReviewByEnrollmentId(enrollmentId);
 
-    @Override
-    @Transactional(readOnly = true)
-    public Enrollment getEnrollmentEntityById(Long enrollmentId) {
-        return enrollmentRepository.findById(enrollmentId)
-                .orElseThrow(() -> new EnrollmentNotFoundException(enrollmentId));
+        return EnrollmentConverter.toEnrollmentDetailResponse(enrollment, review);
     }
 }
