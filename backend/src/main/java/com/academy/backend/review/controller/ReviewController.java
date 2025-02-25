@@ -20,18 +20,16 @@ public class ReviewController {
 
     @PostMapping(value = "")
     public ResponseEntity<?> createReview(
-            @RequestHeader("Authorization") String authorizationHeader,
             @RequestPart("request") ReviewCreateRequest request,
             @RequestPart(value = "images", required = false) List<MultipartFile> images
             ) {
-        reviewService.createReview(authorizationHeader, request, images);
+        reviewService.createReview(request, images);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("")
     public ResponseEntity<ReviewListResponse> getReviewsByCourseId(
-            @RequestHeader("Authorization") String authorizationHeader,
             @RequestParam("courseId") Long courseId,
             @RequestParam(value = "page", defaultValue = "0") Integer page
             ) {

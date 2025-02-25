@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ReviewService {
-    void createReview(String header, ReviewCreateRequest request, List<MultipartFile> images);
+    void createReview(ReviewCreateRequest request, List<MultipartFile> images);
 
     List<ReviewResponse> getAllReviews(Integer page);
     ReviewListResponse getReviewsByCourseId(Integer page, Long courseId);

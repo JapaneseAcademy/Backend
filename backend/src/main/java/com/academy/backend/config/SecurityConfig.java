@@ -31,10 +31,13 @@ public class SecurityConfig {
     };
 
     String[] publicGetEndpoints = {
-            "/api/v1/courses"
+            "/api/v1/courses",
+            "/api/v1/courses/**",
+            "/api/v1/reviews",
+            "/api/v1/reviews/**"
     };
 
-    String[] publicPostEndpoints = {
+    String[] forInstructorEndpoints = {
             "/api/v1/courses"
     };
 
@@ -47,7 +50,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(publicEndpoints).permitAll() // 여러 경로를 한 줄로 그룹화
                         .requestMatchers(HttpMethod.GET, publicGetEndpoints).permitAll()
-                        .requestMatchers(HttpMethod.POST, publicPostEndpoints).hasAuthority("ROLE_INSTRUCTOR")
+                        .requestMatchers(HttpMethod.POST, forInstructorEndpoints).hasAuthority("ROLE_INSTRUCTOR")
                         .anyRequest().authenticated() // 나머지 요청 인증 필요
                 )
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
