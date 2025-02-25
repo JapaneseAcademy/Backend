@@ -1,6 +1,7 @@
 package com.academy.backend.enrollment.controller;
 
 import com.academy.backend.enrollment.dto.request.EnrollmentCreateRequest;
+import com.academy.backend.enrollment.dto.response.EnrollmentDetailResponse;
 import com.academy.backend.enrollment.dto.response.EnrollmentResponse;
 import com.academy.backend.enrollment.service.EnrollmentService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,17 +31,17 @@ public class EnrollmentController {
 
     @GetMapping("")
     public ResponseEntity<List<EnrollmentResponse>> getEnrollments() {
-        List<EnrollmentResponse> enrollments = enrollmentService.getEnrollmentsForUser();
+        List<EnrollmentResponse> response = enrollmentService.getEnrollmentsForUser();
 
-        return ResponseEntity.ok(enrollments);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{enrollmentId}")
-    public ResponseEntity<EnrollmentResponse> getEnrollmentById(
+    public ResponseEntity<EnrollmentDetailResponse> getEnrollmentById(
             @PathVariable Long enrollmentId
     ) {
-        EnrollmentResponse enrollment = enrollmentService.getEnrollmentById(enrollmentId);
+        EnrollmentDetailResponse response = enrollmentService.getEnrollmentById(enrollmentId);
 
-        return ResponseEntity.ok(enrollment);
+        return ResponseEntity.ok(response);
     }
 }
