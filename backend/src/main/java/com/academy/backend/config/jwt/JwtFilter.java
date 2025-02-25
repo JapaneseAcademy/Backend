@@ -44,6 +44,12 @@ public class JwtFilter extends HttpFilter {
             return;
         }
 
+        // JWT 인증 여부 확인
+        if (token == null || !token.startsWith("Bearer ")) {
+            chain.doFilter(request, response);
+            return;
+        }
+
         if (token != null && token.startsWith("Bearer ")) {
             token = token.substring(7); // "Bearer " 이후의 토큰만 추출
 
