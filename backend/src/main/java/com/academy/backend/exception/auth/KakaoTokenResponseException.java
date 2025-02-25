@@ -1,4 +1,4 @@
-package com.academy.backend.exception.oauth;
+package com.academy.backend.exception.auth;
 
 import com.academy.backend.exception.common.BaseException;
 import org.springframework.http.HttpStatus;
