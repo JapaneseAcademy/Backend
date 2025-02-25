@@ -49,7 +49,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public void createReview(String header, ReviewCreateRequest request, List<MultipartFile> images) {
+    public void createReview(ReviewCreateRequest request, List<MultipartFile> images) {
         // TODO: 수강내역-사용자가 맞는지 검증 로직 필요
         String memberName = "dding";
 
