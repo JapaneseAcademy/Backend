@@ -26,6 +26,10 @@ public class PrincipalDetailsService implements UserDetailsService {
         return getCurrentMember().getId();
     }
 
+    public static String getCurrentLoginId() {
+        return getCurrentMember().getLoginId();
+    }
+
     private static PrincipalDetails getCurrentMember() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
