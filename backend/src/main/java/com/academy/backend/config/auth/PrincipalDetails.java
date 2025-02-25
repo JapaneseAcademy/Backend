@@ -76,4 +76,8 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     public boolean isEnabled() {
         return true;
     }
+
+    public Long getId() {
+        return member.getId();
+    }
 }
