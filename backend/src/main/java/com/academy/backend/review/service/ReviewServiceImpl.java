@@ -1,18 +1,18 @@
 package com.academy.backend.review.service;
 
-import com.academy.backend.review.converter.ReviewConverter;
+import com.academy.backend.common.service.CommonService;
+import com.academy.backend.common.service.S3Service;
 import com.academy.backend.course.domain.Course;
+import com.academy.backend.course.service.CourseService;
 import com.academy.backend.enrollment.domain.Enrollment;
+import com.academy.backend.exception.review.DuplicateReviewException;
+import com.academy.backend.exception.review.ReviewNotFoundException;
+import com.academy.backend.review.converter.ReviewConverter;
 import com.academy.backend.review.domain.Review;
 import com.academy.backend.review.dto.request.ReviewCreateRequest;
 import com.academy.backend.review.dto.response.ReviewListResponse;
 import com.academy.backend.review.dto.response.ReviewResponse;
-import com.academy.backend.exception.review.DuplicateReviewException;
-import com.academy.backend.exception.review.ReviewNotFoundException;
 import com.academy.backend.review.repository.ReviewRepository;
-import com.academy.backend.common.service.S3Service;
-import com.academy.backend.course.service.CourseService;
-import com.academy.backend.enrollment.service.EnrollmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,7 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReviewServiceImpl implements ReviewService {
 
-    private final EnrollmentService enrollmentService;
+    private final CommonService commonService;
     private final ReviewImageService reviewImageService;
     private final CourseService courseService;
     private final S3Service s3Service;
@@ -55,7 +55,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         validateWithEnrollmentId(request.getEnrollmentId());
 
-        Enrollment enrollment = enrollmentService.getEnrollmentEntityById(request.getEnrollmentId());
+        Enrollment enrollment = commonService.getEnrollmentByEnrollmentId(request.getEnrollmentId());
         Review review = saveReview(enrollment, request);
 
         if (images != null && !images.isEmpty()) {
@@ -89,8 +89,14 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional(readOnly = true)
-    public Review getReviewById(Long reviewId) {
-        return reviewRepository.findById(reviewId).orElseThrow(() -> new ReviewNotFoundException(reviewId));
+    public Review getReviewByEnrollmentId(Long enrollmentId) {
+        return reviewRepository.findByEnrollmentId(enrollmentId).orElse(null);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Boolean getExistsByEnrollmentId(Long enrollmentId) {
+        return reviewRepository.existsByEnrollmentId(enrollmentId);
     }
 
     private void validateWithEnrollmentId(Long enrollmentId) {

@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
@@ -22,11 +23,13 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
             "AND r.isVisible = true")
     Page<Review> findByCourseId(@Param("courseId") Long courseId, Pageable pageable);
 
-//    @Query("SELECT new com.academy.backend.review.dto.response.BestReviewResponse" +
-//            "(c.title, r.title, r.review, r.name, ri.imageUrl, r.isAnonymous, r.createdAt)")
-//    List<BestReviewResponse> findBestReviews();
-
     boolean existsByEnrollmentId(Long enrollmentId);
 
     Page<Review> findAll(Pageable pageable);
+
+    @Query("SELECT r " +
+            "FROM Review r " +
+            "LEFT JOIN FETCH r.reviewImages ri " +
+            "WHERE r.enrollment.id = :enrollmentId")
+    Optional<Review> findByEnrollmentId(@Param("enrollmentId") Long enrollmentId);
 }
