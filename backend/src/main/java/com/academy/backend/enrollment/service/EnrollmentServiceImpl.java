@@ -1,17 +1,21 @@
 package com.academy.backend.enrollment.service;
 
+import com.academy.backend.auth.service.AuthService;
+import com.academy.backend.config.auth.PrincipalDetailsService;
 import com.academy.backend.config.jwt.JwtProvider;
 import com.academy.backend.course.domain.Course;
+import com.academy.backend.course.service.CourseService;
+import com.academy.backend.enrollment.converter.EnrollmentConverter;
 import com.academy.backend.enrollment.domain.Category;
 import com.academy.backend.enrollment.domain.Enrollment;
-import com.academy.backend.exception.enrollment.UnavailableCategoryException;
-import com.academy.backend.member.domain.Member;
 import com.academy.backend.enrollment.dto.request.EnrollmentCreateRequest;
 import com.academy.backend.enrollment.dto.response.EnrollmentResponse;
 import com.academy.backend.enrollment.repository.EnrollmentRepository;
-import com.academy.backend.course.service.CourseService;
+import com.academy.backend.exception.auth.UserForbiddenException;
+import com.academy.backend.exception.enrollment.EnrollmentNotFoundException;
+import com.academy.backend.exception.enrollment.UnavailableCategoryException;
+import com.academy.backend.member.domain.Member;
 import com.academy.backend.member.service.MemberService;
-import com.academy.backend.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,20 +37,17 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 
     @Override
     @Transactional
-    public void createEnrollment(String header, EnrollmentCreateRequest request) {
+    public void createEnrollment(EnrollmentCreateRequest request) {
         /***********************************
          * TODO: 결제 관련 api 연결하고 비즈니스 로직 구현해야 함
          ************************************/
 
-        // 사용자 식별
-        String token = authService.extractToken(header);
-        String loginId = jwtProvider.getLoginIdFromAccessToken(token);
-        Member member = memberService.getMemberByLoginId(loginId);
+        Long memberId = PrincipalDetailsService.getCurrentMemberId();
+        Member member = memberService.getMemberById(memberId);
 
         Course course = courseService.findCourse(request.getCourseId());
         validateCategory(course, request.getCategory());
 
-        // 수강 정보 등록
         saveEnrollment(member, course, request);
     }
 
@@ -74,30 +75,33 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<EnrollmentResponse> getEnrollments(String header) {
-        String token = authService.extractToken(header);
-        String loginId = jwtProvider.getLoginIdFromAccessToken(token);
+    public List<EnrollmentResponse> getEnrollmentsForUser() {
+        Long memberId = PrincipalDetailsService.getCurrentMemberId();
 
-        List<Enrollment> enrollments = enrollmentRepository.findEnrollmentsByLoginId(loginId);
+        List<Enrollment> enrollments = enrollmentRepository.findEnrollmentsByMemberId(memberId);
 
-        return enrollments.stream().map(EnrollmentResponse::of).toList();
+        return enrollments.stream().map(EnrollmentConverter::toEnrollmentResponse).toList();
     }
 
     @Override
     @Transactional(readOnly = true)
     public EnrollmentResponse getEnrollmentById(Long enrollmentId) {
-        // TODO: 사용자 검증 로직 필요
         // TODO: EnrollmentResponse에 Review 추가
-        Enrollment enrollment = enrollmentRepository.findById(enrollmentId).orElseThrow(
-                () -> new RuntimeException("there is no enrollment with id : " + enrollmentId));
+        Enrollment enrollment = enrollmentRepository.findById(enrollmentId)
+                .orElseThrow(() -> new EnrollmentNotFoundException(enrollmentId));
 
-        return EnrollmentResponse.of(enrollment);
+        Long memberId = PrincipalDetailsService.getCurrentMemberId();
+        if (!enrollment.getMember().getId().equals(memberId)) {
+            throw new UserForbiddenException(memberId);
+        }
+
+        return EnrollmentConverter.toEnrollmentResponse(enrollment);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Enrollment getEnrollmentEntityById(Long enrollmentId) {
         return enrollmentRepository.findById(enrollmentId)
-                .orElseThrow(() -> new RuntimeException("Enrollment not found with id " + enrollmentId));
+                .orElseThrow(() -> new EnrollmentNotFoundException(enrollmentId));
     }
 }

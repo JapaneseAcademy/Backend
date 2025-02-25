@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface EnrollmentService {
 
-    void createEnrollment(String header, EnrollmentCreateRequest request);
+    void createEnrollment(EnrollmentCreateRequest request);
 
-    List<EnrollmentResponse> getEnrollments(String header);
+    List<EnrollmentResponse> getEnrollmentsForUser();
 
     EnrollmentResponse getEnrollmentById(Long enrollmentId);
 
