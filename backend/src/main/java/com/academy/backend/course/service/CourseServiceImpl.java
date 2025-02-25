@@ -1,5 +1,6 @@
 package com.academy.backend.course.service;
 
+import com.academy.backend.common.service.CommonService;
 import com.academy.backend.course.converter.CourseConverter;
 import com.academy.backend.course.domain.Course;
 import com.academy.backend.course.domain.Description;
@@ -9,7 +10,6 @@ import com.academy.backend.course.dto.response.CourseResponse;
 import com.academy.backend.course.repository.CourseRepository;
 import com.academy.backend.exception.course.CourseNotFoundException;
 import com.academy.backend.member.domain.Member;
-import com.academy.backend.member.service.MemberService;
 import com.academy.backend.timeTable.domain.TimeTable;
 import com.academy.backend.timeTable.service.TimeTableService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService{
 
-    private final MemberService memberService;
+    private final CommonService commonService;
     private final TimeTableService timeTableService;
     private final TagService tagService;
     private final DescriptionService descriptionService;
@@ -50,7 +50,7 @@ public class CourseServiceImpl implements CourseService{
     public void createCourse(CourseCreateRequest request) {
 
         // TODO: 관리자 ID로 수정 필요
-        Member member = memberService.getMemberById(1L);
+        Member member = commonService.getMemberByMemberId(1L);
         Course course = saveCourse(member, request);
 
         // 입력값에 태그가 주어질 때 태그 생성

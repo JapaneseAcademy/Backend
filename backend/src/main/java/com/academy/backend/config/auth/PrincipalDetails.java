@@ -80,4 +80,8 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     public Long getId() {
         return member.getId();
     }
+
+    public String getLoginId() {
+        return member.getLoginId();
+    }
 }

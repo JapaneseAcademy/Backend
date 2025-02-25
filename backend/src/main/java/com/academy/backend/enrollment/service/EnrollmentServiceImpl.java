@@ -1,5 +1,6 @@
 package com.academy.backend.enrollment.service;
 
+import com.academy.backend.common.service.CommonService;
 import com.academy.backend.config.auth.PrincipalDetailsService;
 import com.academy.backend.course.domain.Course;
 import com.academy.backend.course.service.CourseService;
@@ -14,7 +15,6 @@ import com.academy.backend.exception.auth.UserForbiddenException;
 import com.academy.backend.exception.enrollment.EnrollmentNotFoundException;
 import com.academy.backend.exception.enrollment.UnavailableCategoryException;
 import com.academy.backend.member.domain.Member;
-import com.academy.backend.member.service.MemberService;
 import com.academy.backend.review.domain.Review;
 import com.academy.backend.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EnrollmentServiceImpl implements EnrollmentService{
 
-    private final MemberService memberService;
+    private final CommonService commonService;
     private final CourseService courseService;
     private final ReviewService reviewService;
 
@@ -42,7 +42,7 @@ public class EnrollmentServiceImpl implements EnrollmentService{
          ************************************/
 
         Long memberId = PrincipalDetailsService.getCurrentMemberId();
-        Member member = memberService.getMemberById(memberId);
+        Member member = commonService.getMemberByMemberId(memberId);
 
         Course course = courseService.findCourse(request.getCourseId());
         validateCategory(course, request.getCategory());
