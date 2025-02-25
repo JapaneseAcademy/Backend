@@ -1,7 +1,7 @@
 package com.academy.backend.auth.dto.response;
 
 import com.academy.backend.auth.dto.jwt.AuthToken;
-import com.academy.backend.exception.oauth.TokenMappingException;
+import com.academy.backend.exception.auth.TokenMappingException;
 import lombok.Builder;
 import lombok.Getter;
 

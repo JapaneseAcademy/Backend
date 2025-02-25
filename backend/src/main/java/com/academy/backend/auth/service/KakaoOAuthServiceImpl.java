@@ -4,7 +4,7 @@ import com.academy.backend.config.auth.AuthTokenGenerator;
 import com.academy.backend.auth.dto.request.KakaoOAuthRequest;
 import com.academy.backend.auth.dto.response.KakaoOAuthTokenResponse;
 import com.academy.backend.auth.dto.response.LoginResponse;
-import com.academy.backend.exception.oauth.KakaoTokenResponseException;
+import com.academy.backend.exception.auth.KakaoTokenResponseException;
 import com.academy.backend.member.repository.MemberRepository;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
