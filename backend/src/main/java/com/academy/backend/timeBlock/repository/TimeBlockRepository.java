@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface TimeTableRepository extends JpaRepository<TimeBlock, Long> {
+public interface TimeBlockRepository extends JpaRepository<TimeBlock, Long> {
     public List<TimeBlock> findByCourseId(Long courseId);
 }

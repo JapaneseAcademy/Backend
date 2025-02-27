@@ -8,7 +8,7 @@ import java.time.LocalTime;
 
 @Getter
 @Builder
-public class TimeTableResponse {
+public class TimeBlockResponse {
 
     private Weekday weekday;
     private LocalTime startTime;

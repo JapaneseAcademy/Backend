@@ -12,7 +12,7 @@ import com.academy.backend.course.repository.CourseRepository;
 import com.academy.backend.exception.course.CourseNotFoundException;
 import com.academy.backend.member.domain.Member;
 import com.academy.backend.timeBlock.domain.TimeBlock;
-import com.academy.backend.timeBlock.service.TimeTableService;
+import com.academy.backend.timeBlock.service.TimeBlockService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +25,7 @@ import java.util.List;
 public class CourseServiceImpl implements CourseService{
 
     private final CommonService commonService;
-    private final TimeTableService timeTableService;
+    private final TimeBlockService timeBlockService;
     private final TagService tagService;
     private final DescriptionService descriptionService;
     private final S3Service s3Service;
@@ -69,14 +69,14 @@ public class CourseServiceImpl implements CourseService{
         descriptionService.createDescription(course, request.getDescriptions());
 
         // 수업 시간표 생성
-        timeTableService.createTimeTable(course, request.getTimetables());
+        timeBlockService.createTimeBlock(course, request.getTimetables());
     }
 
     @Override
     @Transactional(readOnly = true)
     public CourseResponse getCourse(Long courseId) {
         Course course = findCourse(courseId);
-        List<TimeBlock> timeBlocks = timeTableService.getTimeTablesByCourse(course);
+        List<TimeBlock> timeBlocks = timeBlockService.getTimeBlocksByCourse(course);
         List<Description> descriptions = descriptionService.getDescriptionsByCourse(course);
         List<Tag> tags = tagService.getTagsByCourse(course);
 

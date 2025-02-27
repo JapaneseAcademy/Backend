@@ -1,6 +1,6 @@
 package com.academy.backend.course.dto.response;
 
-import com.academy.backend.timeBlock.dto.response.TimeTableResponse;
+import com.academy.backend.timeBlock.dto.response.TimeBlockResponse;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -21,6 +21,6 @@ public class CourseResponse {
     private Boolean isOnline;
     private Boolean isRecorded;
     private List<String> descriptions;
-    private List<TimeTableResponse> timeTables;
+    private List<TimeBlockResponse> timeTables;
     private List<String> tags;
 }
