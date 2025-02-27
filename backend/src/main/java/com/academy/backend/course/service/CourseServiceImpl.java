@@ -11,8 +11,8 @@ import com.academy.backend.course.dto.response.CourseResponse;
 import com.academy.backend.course.repository.CourseRepository;
 import com.academy.backend.exception.course.CourseNotFoundException;
 import com.academy.backend.member.domain.Member;
-import com.academy.backend.timeTable.domain.TimeTable;
-import com.academy.backend.timeTable.service.TimeTableService;
+import com.academy.backend.timeBlock.domain.TimeBlock;
+import com.academy.backend.timeBlock.service.TimeTableService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,11 +76,11 @@ public class CourseServiceImpl implements CourseService{
     @Transactional(readOnly = true)
     public CourseResponse getCourse(Long courseId) {
         Course course = findCourse(courseId);
-        List<TimeTable> timeTables = timeTableService.getTimeTablesByCourse(course);
+        List<TimeBlock> timeBlocks = timeTableService.getTimeTablesByCourse(course);
         List<Description> descriptions = descriptionService.getDescriptionsByCourse(course);
         List<Tag> tags = tagService.getTagsByCourse(course);
 
-        return CourseConverter.toCourseResponse(course, descriptions, timeTables, tags);
+        return CourseConverter.toCourseResponse(course, descriptions, timeBlocks, tags);
     }
 
     @Override

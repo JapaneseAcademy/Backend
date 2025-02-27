@@ -1,6 +1,6 @@
-package com.academy.backend.timeTable.dto.response;
+package com.academy.backend.timeBlock.dto.response;
 
-import com.academy.backend.timeTable.domain.Weekday;
+import com.academy.backend.timeBlock.domain.Weekday;
 import lombok.Builder;
 import lombok.Getter;
 

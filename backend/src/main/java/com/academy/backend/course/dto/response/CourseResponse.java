@@ -1,6 +1,6 @@
 package com.academy.backend.course.dto.response;
 
-import com.academy.backend.timeTable.dto.response.TimeTableResponse;
+import com.academy.backend.timeBlock.dto.response.TimeTableResponse;
 import lombok.Builder;
 import lombok.Getter;
 

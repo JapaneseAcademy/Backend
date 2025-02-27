@@ -1,6 +1,6 @@
 package com.academy.backend.course.dto.request;
 
-import com.academy.backend.timeTable.domain.Weekday;
+import com.academy.backend.timeBlock.domain.Weekday;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;

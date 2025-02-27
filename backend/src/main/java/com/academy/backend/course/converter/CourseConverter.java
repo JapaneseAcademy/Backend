@@ -4,16 +4,16 @@ import com.academy.backend.course.domain.Course;
 import com.academy.backend.course.domain.Description;
 import com.academy.backend.course.domain.Tag;
 import com.academy.backend.course.dto.response.CourseResponse;
-import com.academy.backend.timeTable.converter.TimeTableConverter;
-import com.academy.backend.timeTable.dto.response.TimeTableResponse;
+import com.academy.backend.timeBlock.converter.TimeTableConverter;
+import com.academy.backend.timeBlock.domain.TimeBlock;
+import com.academy.backend.timeBlock.dto.response.TimeTableResponse;
 import com.academy.backend.exception.course.CourseMappingException;
-import com.academy.backend.timeTable.domain.TimeTable;
 
 import java.util.List;
 
 public class CourseConverter {
 
-    public static CourseResponse toCourseResponse(Course course, List<Description> descriptions, List<TimeTable> timeTables, List<Tag> tags) {
+    public static CourseResponse toCourseResponse(Course course, List<Description> descriptions, List<TimeBlock> timeBlocks, List<Tag> tags) {
         try {
             List<String> descriptionImageUrls = descriptions.stream()
                     .map(Description::getImageUrl).toList();
@@ -21,7 +21,7 @@ public class CourseConverter {
             List<String> tagLabels = tags.stream()
                     .map(Tag::getLabel).toList();
 
-            List<TimeTableResponse> timeTableResponses = timeTables.stream()
+            List<TimeTableResponse> timeTableResponses = timeBlocks.stream()
                     .map(TimeTableConverter::toTimeTableResponse).toList();
 
             return CourseResponse.builder()

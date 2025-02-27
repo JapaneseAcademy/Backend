@@ -1,4 +1,4 @@
-package com.academy.backend.timeTable.domain;
+package com.academy.backend.timeBlock.domain;
 
 import com.academy.backend.course.domain.Course;
 import jakarta.persistence.*;
@@ -13,13 +13,12 @@ import java.time.LocalTime;
 
 @Entity
 @Getter
-@Table(name = "TIME_TABLE")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class TimeTable {
+public class TimeBlock {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "timeTableId")
+    @Column(name = "timeBlockId")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -34,7 +33,7 @@ public class TimeTable {
     private LocalTime endTime;
 
     @Builder
-    public TimeTable(Course course, Weekday weekday, LocalTime startTime, LocalTime endTime) {
+    public TimeBlock(Course course, Weekday weekday, LocalTime startTime, LocalTime endTime) {
         this.course = course;
         this.weekday = weekday;
         this.startTime = startTime;

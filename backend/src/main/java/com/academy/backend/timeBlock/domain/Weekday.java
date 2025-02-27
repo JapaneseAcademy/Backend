@@ -1,4 +1,4 @@
-package com.academy.backend.timeTable.domain;
+package com.academy.backend.timeBlock.domain;
 
 public enum Weekday {
     MONDAY,
