@@ -39,6 +39,9 @@ public class Course {
     private LocalDate endDate;
 
     @Column(nullable = false)
+    private String mainImageUrl;
+
+    @Column(nullable = false)
     private Boolean isFeatured = false;
 
     @Column(nullable = false)
@@ -51,12 +54,13 @@ public class Course {
     private Boolean isRecorded;
 
     @Builder
-    public Course(Member member, String title, Integer cost, LocalDate startDate, LocalDate endDate, Boolean isLive, Boolean isOnline, Boolean isRecorded) {
+    public Course(Member member, String title, Integer cost, LocalDate startDate, LocalDate endDate, String mainImageUrl, Boolean isLive, Boolean isOnline, Boolean isRecorded) {
         this.member = member;
         this.title = title;
         this.cost = cost;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.mainImageUrl = mainImageUrl;
         this.isLive = isLive;
         this.isOnline = isOnline;
         this.isRecorded = isRecorded;
