@@ -22,6 +22,7 @@ public class ReviewConverter {
                 .toList();
 
         return ReviewResponse.builder()
+                .reviewId(review.getId())
                 .title(review.getTitle())
                 .review(review.getReview())
                 .name("test")

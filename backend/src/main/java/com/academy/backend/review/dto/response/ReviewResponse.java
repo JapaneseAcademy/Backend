@@ -10,6 +10,7 @@ import java.util.List;
 @Builder
 public class ReviewResponse {
 
+    private Long reviewId;
     private String title;
     private String review;
     private String name;

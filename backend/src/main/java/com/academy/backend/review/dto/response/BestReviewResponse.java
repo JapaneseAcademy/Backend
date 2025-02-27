@@ -10,8 +10,8 @@ public class BestReviewResponse extends ReviewResponse {
 
     private String courseTitle;
 
-    BestReviewResponse(String courseTitle, String title, String review, String name, List<String> imageUrls, Boolean isAnonymous, LocalDate createdDate) {
-        super(title, review, name, imageUrls, isAnonymous, createdDate);
+    BestReviewResponse(Long reviewId, String courseTitle, String title, String review, String name, List<String> imageUrls, Boolean isAnonymous, LocalDate createdDate) {
+        super(reviewId, title, review, name, imageUrls, isAnonymous, createdDate);
         this.courseTitle = courseTitle;
     }
 }
