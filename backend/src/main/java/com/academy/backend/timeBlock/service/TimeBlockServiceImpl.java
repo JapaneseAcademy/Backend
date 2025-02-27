@@ -1,9 +1,10 @@
 package com.academy.backend.timeBlock.service;
 
 import com.academy.backend.course.domain.Course;
+import com.academy.backend.course.dto.request.TimeTableRequest.TimeBlockRequest;
 import com.academy.backend.timeBlock.domain.TimeBlock;
-import com.academy.backend.course.dto.request.CourseTimeTableRequest;
 import com.academy.backend.timeBlock.repository.TimeBlockRepository;
+import com.academy.backend.timeTable.domain.TimeTable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,13 +19,13 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
     @Override
     @Transactional
-    public void createTimeBlock(Course course, List<CourseTimeTableRequest> requests) {
-        requests.forEach(schedule -> {
+    public void createTimeBlock(TimeTable timeTable, List<TimeBlockRequest> requests) {
+        requests.forEach(request -> {
             TimeBlock timeBlock = TimeBlock.builder()
-                    .course(course)
-                    .weekday(schedule.getWeekday())
-                    .startTime(schedule.getStartTime())
-                    .endTime(schedule.getEndTime())
+                    .timeTable(timeTable)
+                    .weekday(request.getWeekday())
+                    .startTime(request.getStartTime())
+                    .endTime(request.getEndTime())
                     .build();
             timeBlockRepository.save(timeBlock);
         });
@@ -33,6 +34,6 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     @Override
     @Transactional(readOnly = true)
     public List<TimeBlock> getTimeBlocksByCourse(Course course) {
-        return timeBlockRepository.findByCourseId(course.getId());
+        return timeBlockRepository.findByTimeTableId(course.getId());
     }
 }

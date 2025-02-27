@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface TimeBlockRepository extends JpaRepository<TimeBlock, Long> {
-    public List<TimeBlock> findByCourseId(Long courseId);
+    public List<TimeBlock> findByTimeTableId(Long timeTableId);
 }

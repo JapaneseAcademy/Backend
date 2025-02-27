@@ -1,6 +1,6 @@
 package com.academy.backend.timeBlock.domain;
 
-import com.academy.backend.course.domain.Course;
+import com.academy.backend.timeTable.domain.TimeTable;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -22,9 +22,9 @@ public class TimeBlock {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "courseId")
+    @JoinColumn(name = "timeTableId")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Course course;
+    private TimeTable timeTable;
 
     @Enumerated(EnumType.STRING)
     private Weekday weekday;
@@ -33,8 +33,8 @@ public class TimeBlock {
     private LocalTime endTime;
 
     @Builder
-    public TimeBlock(Course course, Weekday weekday, LocalTime startTime, LocalTime endTime) {
-        this.course = course;
+    public TimeBlock(TimeTable timeTable, Weekday weekday, LocalTime startTime, LocalTime endTime) {
+        this.timeTable = timeTable;
         this.weekday = weekday;
         this.startTime = startTime;
         this.endTime = endTime;
