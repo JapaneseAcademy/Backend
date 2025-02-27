@@ -41,5 +41,5 @@ public class CourseCreateRequest {
 
     @Valid
     @NotEmpty(message = "수업 일정은 최소 하나 이상 입력해야 합니다.")
-    private List<CourseTimeTableRequest> timetables = Collections.emptyList();
+    private List<CourseTimeTableRequest> timeBlocks = Collections.emptyList();
 }

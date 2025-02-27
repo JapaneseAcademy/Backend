@@ -69,7 +69,7 @@ public class CourseServiceImpl implements CourseService{
         descriptionService.createDescription(course, request.getDescriptions());
 
         // 수업 시간표 생성
-        timeBlockService.createTimeBlock(course, request.getTimetables());
+        timeBlockService.createTimeBlock(course, request.getTimeBlocks());
     }
 
     @Override

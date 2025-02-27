@@ -21,8 +21,8 @@ public class CourseConverter {
             List<String> tagLabels = tags.stream()
                     .map(Tag::getLabel).toList();
 
-            List<TimeBlockResponse> timeBlockRespons = timeBlocks.stream()
-                    .map(TimeBlockConverter::toTimeTableResponse).toList();
+            List<TimeBlockResponse> timeBlockResponse = timeBlocks.stream()
+                    .map(TimeBlockConverter::toTimeBlockResponse).toList();
 
             return CourseResponse.builder()
                     .id(course.getId())
@@ -35,7 +35,7 @@ public class CourseConverter {
                     .isOnline(course.getIsOnline())
                     .isRecorded(course.getIsRecorded())
                     .descriptions(descriptionImageUrls)
-                    .timeTables(timeBlockRespons)
+                    .timeBlocks(timeBlockResponse)
                     .tags(tagLabels)
                     .build();
         } catch (Exception e) {

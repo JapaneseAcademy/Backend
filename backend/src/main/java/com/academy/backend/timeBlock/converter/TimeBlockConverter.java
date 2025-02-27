@@ -6,7 +6,7 @@ import com.academy.backend.timeBlock.dto.response.TimeBlockResponse;
 
 public class TimeBlockConverter {
 
-    public static TimeBlockResponse toTimeTableResponse(TimeBlock timeBlock) {
+    public static TimeBlockResponse toTimeBlockResponse(TimeBlock timeBlock) {
         try {
             return TimeBlockResponse.builder()
                     .weekday(timeBlock.getWeekday())
