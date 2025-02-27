@@ -1,5 +1,6 @@
 package com.academy.backend.course.dto.request;
 
+import com.academy.backend.timeTable.dto.request.TimeTableRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.Getter;

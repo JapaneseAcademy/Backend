@@ -1,7 +1,7 @@
 package com.academy.backend.timeTable.service;
 
 import com.academy.backend.course.domain.Course;
-import com.academy.backend.course.dto.request.TimeTableRequest;
+import com.academy.backend.timeTable.dto.request.TimeTableRequest;
 
 import java.util.List;
 

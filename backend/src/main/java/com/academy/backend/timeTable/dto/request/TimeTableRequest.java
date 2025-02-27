@@ -1,4 +1,4 @@
-package com.academy.backend.course.dto.request;
+package com.academy.backend.timeTable.dto.request;
 
 import com.academy.backend.timeBlock.domain.Weekday;
 import jakarta.validation.constraints.NotNull;
