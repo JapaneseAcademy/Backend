@@ -8,9 +8,8 @@ spring:
     time-zone: Asia/Seoul
 
   jpa:
-    show-sql: true
     hibernate:
-      ddl-auto: validate # Hibernate의 DDL 자동 생성 전략 (update, create, create-drop 등)
+      ddl-auto: update # Hibernate의 DDL 자동 생성 전략 (update, create, create-drop 등)
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
