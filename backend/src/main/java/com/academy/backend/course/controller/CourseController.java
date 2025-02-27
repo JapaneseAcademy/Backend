@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -24,8 +25,11 @@ public class CourseController {
     }
 
     @PostMapping("")
-    public ResponseEntity<?> createCourse(@Valid @RequestBody CourseCreateRequest request) {
-        courseService.createCourse(request);
+    public ResponseEntity<?> createCourse(
+            @Valid @RequestPart("request") CourseCreateRequest request,
+            @RequestPart("mainImage") MultipartFile mainImage
+            ) {
+        courseService.createCourse(request, mainImage);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

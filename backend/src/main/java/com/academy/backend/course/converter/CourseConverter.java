@@ -30,6 +30,7 @@ public class CourseConverter {
                     .cost(course.getCost())
                     .startDate(course.getStartDate())
                     .endDate(course.getEndDate())
+                    .mainImageUrl(course.getMainImageUrl())
                     .isLive(course.getIsLive())
                     .isOnline(course.getIsOnline())
                     .isRecorded(course.getIsRecorded())

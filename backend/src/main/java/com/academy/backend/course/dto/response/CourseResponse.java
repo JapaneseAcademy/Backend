@@ -16,6 +16,7 @@ public class CourseResponse {
     private Integer cost;
     private LocalDate startDate;
     private LocalDate endDate;
+    private String mainImageUrl;
     private Boolean isLive;
     private Boolean isOnline;
     private Boolean isRecorded;
