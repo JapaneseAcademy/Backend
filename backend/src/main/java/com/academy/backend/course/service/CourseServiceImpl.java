@@ -13,6 +13,7 @@ import com.academy.backend.exception.course.CourseNotFoundException;
 import com.academy.backend.member.domain.Member;
 import com.academy.backend.timeBlock.domain.TimeBlock;
 import com.academy.backend.timeBlock.service.TimeBlockService;
+import com.academy.backend.timeTable.service.TimeTableService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +26,7 @@ import java.util.List;
 public class CourseServiceImpl implements CourseService{
 
     private final CommonService commonService;
+    private final TimeTableService timeTableService;
     private final TimeBlockService timeBlockService;
     private final TagService tagService;
     private final DescriptionService descriptionService;
@@ -68,8 +70,8 @@ public class CourseServiceImpl implements CourseService{
         // 강의 설명 생성
         descriptionService.createDescription(course, request.getDescriptions());
 
-        // 수업 시간표 생성
-        timeBlockService.createTimeBlock(course, request.getTimeBlocks());
+        // TODO: 수업 시간표 생성
+        timeTableService.createTimeTable(course, request.getTimeTables());
     }
 
     @Override
