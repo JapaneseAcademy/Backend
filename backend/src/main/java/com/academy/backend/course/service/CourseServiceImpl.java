@@ -1,6 +1,7 @@
 package com.academy.backend.course.service;
 
 import com.academy.backend.common.service.CommonService;
+import com.academy.backend.common.service.S3Service;
 import com.academy.backend.course.converter.CourseConverter;
 import com.academy.backend.course.domain.Course;
 import com.academy.backend.course.domain.Description;
@@ -15,6 +16,7 @@ import com.academy.backend.timeTable.service.TimeTableService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -26,17 +28,21 @@ public class CourseServiceImpl implements CourseService{
     private final TimeTableService timeTableService;
     private final TagService tagService;
     private final DescriptionService descriptionService;
+    private final S3Service s3Service;
 
     private final CourseRepository courseRepository;
 
+    private static final String path = "courses/";
+
     @Transactional
-    private Course saveCourse(Member member, CourseCreateRequest request) {
+    private Course saveCourse(Member member, CourseCreateRequest request, String mainImageUrl) {
         Course course = Course.builder()
                 .member(member)
                 .title(request.getTitle())
                 .cost(request.getCost())
                 .startDate(request.getStartDate())
                 .endDate(request.getEndDate())
+                .mainImageUrl(mainImageUrl)
                 .isLive(request.getIsLive())
                 .isOnline(request.getIsOnline())
                 .isRecorded(request.getIsRecorded())
@@ -47,11 +53,12 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     @Transactional
-    public void createCourse(CourseCreateRequest request) {
+    public void createCourse(CourseCreateRequest request, MultipartFile mainImage) {
 
         // TODO: 관리자 ID로 수정 필요
         Member member = commonService.getMemberByMemberId(1L);
-        Course course = saveCourse(member, request);
+        String mainImageUrl = s3Service.uploadImage(mainImage, path);
+        Course course = saveCourse(member, request, mainImageUrl);
 
         // 입력값에 태그가 주어질 때 태그 생성
         if (!request.getTags().isEmpty()){
