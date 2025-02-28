@@ -97,6 +97,7 @@ public class CourseServiceImpl implements CourseService{
     @Transactional
     public void deleteCourse(Long courseId) {
         Course course = commonService.getCourseByCourseId(courseId);
-        courseRepository.delete(course);
+        course.deleteCourse();
+        courseRepository.save(course);
     }
 }
