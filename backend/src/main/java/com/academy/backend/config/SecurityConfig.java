@@ -65,7 +65,7 @@ public class SecurityConfig {
 
             configuration.setAllowedMethods(Collections.singletonList("*"));
             configuration.setAllowedOrigins(Arrays.asList(
-                    "http://localhost:3000", "http://localhost:5173", "https://yeri-nihongo.netlify.app", "https://yeri-jp.com"
+                    "http://localhost:3000", "http://localhost:5173", "https://yeri-nihongo.netlify.app", "https://www.yeri-jp.com"
             ));
             configuration.setAllowedHeaders(Collections.singletonList("*"));
             configuration.setAllowCredentials(true);
