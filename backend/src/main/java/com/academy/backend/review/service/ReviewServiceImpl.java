@@ -98,6 +98,14 @@ public class ReviewServiceImpl implements ReviewService {
         return reviewRepository.existsByEnrollmentId(enrollmentId);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public ReviewResponse getReviewByReviewId(Long reviewId) {
+        Review review = commonService.getReviewByReviewId(reviewId);
+
+        return ReviewConverter.toReviewResponse(review);
+    }
+
     private void validateWithEnrollmentId(Long enrollmentId) {
         if (reviewRepository.existsByEnrollmentId(enrollmentId)) {
             throw new DuplicateReviewException(enrollmentId);
