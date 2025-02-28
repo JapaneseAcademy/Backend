@@ -98,6 +98,5 @@ public class CourseServiceImpl implements CourseService{
     public void deleteCourse(Long courseId) {
         Course course = commonService.getCourseByCourseId(courseId);
         course.deleteCourse();
-        courseRepository.save(course);
     }
 }
