@@ -54,6 +54,7 @@ public class Course {
     private Boolean isRecorded;
 
     private int studentCount = 0;
+    private Boolean isActive = true;
 
     @Builder
     public Course(Member member, String title, Integer cost, LocalDate startDate, LocalDate endDate, String mainImageUrl, Boolean isLive, Boolean isOnline, Boolean isRecorded) {
@@ -74,5 +75,17 @@ public class Course {
 
     public void subStudent() {
         this.studentCount--;
+    }
+
+    public void setBest() {
+        this.isFeatured = true;
+    }
+
+    public void setCommon() {
+        this.isFeatured = false;
+    }
+
+    public void deleteCourse() {
+        this.isActive = false;
     }
 }
