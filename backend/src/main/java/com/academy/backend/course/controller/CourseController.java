@@ -2,6 +2,7 @@ package com.academy.backend.course.controller;
 
 import com.academy.backend.course.dto.request.CourseCreateRequest;
 import com.academy.backend.course.dto.response.CourseDetailResponse;
+import com.academy.backend.course.dto.response.CourseListResponse;
 import com.academy.backend.course.service.CourseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -9,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @RequestMapping("/api/v1/courses")
 @RestController
@@ -20,7 +19,7 @@ public class CourseController {
     private final CourseService courseService;
 
     @GetMapping("")
-    public ResponseEntity<List<CourseDetailResponse>> getAllCourses() {
+    public ResponseEntity<CourseListResponse> getAllCourses() {
         return ResponseEntity.ok(courseService.getAllCourses());
     }
 

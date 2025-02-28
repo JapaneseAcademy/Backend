@@ -4,6 +4,8 @@ import com.academy.backend.course.domain.Course;
 import com.academy.backend.course.domain.Description;
 import com.academy.backend.course.domain.Tag;
 import com.academy.backend.course.dto.response.CourseDetailResponse;
+import com.academy.backend.course.dto.response.CourseListResponse;
+import com.academy.backend.course.dto.response.CourseListResponse.CourseInfo;
 import com.academy.backend.exception.course.CourseMappingException;
 import com.academy.backend.timeTable.dto.response.TimeTableResponse;
 
@@ -36,5 +38,38 @@ public class CourseConverter {
         } catch (Exception e) {
             throw new CourseMappingException();
         }
+    }
+
+    public static CourseListResponse toCourseListResponse(List<Course> courses) {
+        try {
+            List<CourseInfo> courseInfos = courses.stream()
+                    .map(CourseConverter::toCourseInfo).toList();
+
+            return CourseListResponse.builder()
+                    .courseInfos(courseInfos)
+                    .listSize(courseInfos.size())
+                    .build();
+        } catch (Exception e) {
+            throw new CourseMappingException();
+        }
+    }
+
+    public static CourseInfo toCourseInfo(Course course) {
+        try {
+            return CourseInfo.builder()
+                    .courseId(course.getId())
+                    .title(course.getTitle())
+                    .cost(course.getCost())
+                    .startDate(course.getStartDate())
+                    .endDate(course.getEndDate())
+                    .mainImageUrl(course.getMainImageUrl())
+                    .isLive(course.getIsLive())
+                    .isOnline(course.getIsOnline())
+                    .isRecorded(course.getIsRecorded())
+                    .build();
+        } catch (Exception e) {
+            throw new CourseMappingException();
+        }
+
     }
 }

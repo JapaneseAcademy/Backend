@@ -8,6 +8,7 @@ import com.academy.backend.course.domain.Description;
 import com.academy.backend.course.domain.Tag;
 import com.academy.backend.course.dto.request.CourseCreateRequest;
 import com.academy.backend.course.dto.response.CourseDetailResponse;
+import com.academy.backend.course.dto.response.CourseListResponse;
 import com.academy.backend.course.repository.CourseRepository;
 import com.academy.backend.exception.course.CourseNotFoundException;
 import com.academy.backend.member.domain.Member;
@@ -87,11 +88,10 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<CourseDetailResponse> getAllCourses() {
+    public CourseListResponse getAllCourses() {
         List<Course> courses = courseRepository.findAll();
-        return courses.stream()
-                .map(course -> getCourse(course.getId()))
-                .toList();
+
+        return CourseConverter.toCourseListResponse(courses);
     }
 
     @Override
