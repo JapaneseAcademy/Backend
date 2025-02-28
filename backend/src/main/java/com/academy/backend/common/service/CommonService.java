@@ -1,7 +1,10 @@
 package com.academy.backend.common.service;
 
+import com.academy.backend.course.domain.Course;
+import com.academy.backend.course.repository.CourseRepository;
 import com.academy.backend.enrollment.domain.Enrollment;
 import com.academy.backend.enrollment.repository.EnrollmentRepository;
+import com.academy.backend.exception.course.CourseNotFoundException;
 import com.academy.backend.exception.enrollment.EnrollmentNotFoundException;
 import com.academy.backend.exception.member.UserNotFoundException;
 import com.academy.backend.exception.review.ReviewNotFoundException;
@@ -18,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CommonService {
 
     private final MemberRepository memberRepository;
+    private final CourseRepository courseRepository;
     private final EnrollmentRepository enrollmentRepository;
     private final ReviewRepository reviewRepository;
 
@@ -38,5 +42,12 @@ public class CommonService {
     public Review getReviewByReviewId(Long reviewId) {
         return reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new ReviewNotFoundException(reviewId));
+    }
+
+    @Transactional(readOnly = true)
+    public Course getCourseByCourseId(Long courseId) {
+        return courseRepository.findById(courseId).orElseThrow(
+                () -> new CourseNotFoundException(courseId)
+        );
     }
 }

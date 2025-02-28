@@ -10,7 +10,6 @@ import com.academy.backend.course.dto.request.CourseCreateRequest;
 import com.academy.backend.course.dto.response.CourseDetailResponse;
 import com.academy.backend.course.dto.response.CourseListResponse;
 import com.academy.backend.course.repository.CourseRepository;
-import com.academy.backend.exception.course.CourseNotFoundException;
 import com.academy.backend.member.domain.Member;
 import com.academy.backend.timeBlock.service.TimeBlockService;
 import com.academy.backend.timeTable.dto.response.TimeTableResponse;
@@ -78,7 +77,7 @@ public class CourseServiceImpl implements CourseService{
     @Override
     @Transactional(readOnly = true)
     public CourseDetailResponse getCourse(Long courseId) {
-        Course course = findCourse(courseId);
+        Course course = commonService.getCourseByCourseId(courseId);
         List<TimeTableResponse> timeTableResponses = timeTableService.getTimeTablesByCourseId(courseId);
         List<Description> descriptions = descriptionService.getDescriptionsByCourse(course);
         List<Tag> tags = tagService.getTagsByCourse(course);
@@ -95,17 +94,9 @@ public class CourseServiceImpl implements CourseService{
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Course findCourse(Long courseId) {
-        return courseRepository.findById(courseId).orElseThrow(
-                () -> new CourseNotFoundException(courseId)
-        );
-    }
-
-    @Override
     @Transactional
     public void deleteCourse(Long courseId) {
-        Course course = findCourse(courseId);
+        Course course = commonService.getCourseByCourseId(courseId);
         courseRepository.delete(course);
     }
 }

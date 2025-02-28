@@ -6,7 +6,6 @@ import com.academy.backend.course.domain.Course;
 import com.academy.backend.course.service.CourseService;
 import com.academy.backend.enrollment.domain.Enrollment;
 import com.academy.backend.exception.review.DuplicateReviewException;
-import com.academy.backend.exception.review.ReviewNotFoundException;
 import com.academy.backend.review.converter.ReviewConverter;
 import com.academy.backend.review.domain.Review;
 import com.academy.backend.review.dto.request.ReviewCreateRequest;
@@ -79,7 +78,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     @Transactional(readOnly = true)
     public ReviewListResponse getReviewsByCourseId(Integer page, Long courseId) {
-        Course course = courseService.findCourse(courseId);
+        Course course = commonService.getCourseByCourseId(courseId);
 
         Pageable pageable = PageRequest.of(page, 5);
         Page<Review> reviews = reviewRepository.findByCourseId(courseId, pageable);

@@ -44,7 +44,7 @@ public class EnrollmentServiceImpl implements EnrollmentService{
         Long memberId = PrincipalDetailsService.getCurrentMemberId();
         Member member = commonService.getMemberByMemberId(memberId);
 
-        Course course = courseService.findCourse(request.getCourseId());
+        Course course = commonService.getCourseByCourseId(request.getCourseId());
         validateCategory(course, request.getCategory());
 
         saveEnrollment(member, course, request);
