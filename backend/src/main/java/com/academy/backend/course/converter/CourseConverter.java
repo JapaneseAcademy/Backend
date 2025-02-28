@@ -33,6 +33,7 @@ public class CourseConverter {
                     .isRecorded(course.getIsRecorded())
                     .descriptions(descriptionImageUrls)
                     .timeTables(timeTables)
+                    .studentCount(course.getStudentCount())
                     .tags(tagLabels)
                     .build();
         } catch (Exception e) {
@@ -66,6 +67,7 @@ public class CourseConverter {
                     .isLive(course.getIsLive())
                     .isOnline(course.getIsOnline())
                     .isRecorded(course.getIsRecorded())
+                    .studentCount(course.getStudentCount())
                     .build();
         } catch (Exception e) {
             throw new CourseMappingException();

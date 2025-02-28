@@ -53,6 +53,8 @@ public class Course {
     @Column(nullable = false)
     private Boolean isRecorded;
 
+    private int studentCount = 0;
+
     @Builder
     public Course(Member member, String title, Integer cost, LocalDate startDate, LocalDate endDate, String mainImageUrl, Boolean isLive, Boolean isOnline, Boolean isRecorded) {
         this.member = member;
@@ -64,5 +66,13 @@ public class Course {
         this.isLive = isLive;
         this.isOnline = isOnline;
         this.isRecorded = isRecorded;
+    }
+
+    public void addStudent() {
+        this.studentCount++;
+    }
+
+    public void subStudent() {
+        this.studentCount--;
     }
 }

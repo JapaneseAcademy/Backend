@@ -22,5 +22,6 @@ public class CourseDetailResponse {
     private Boolean isRecorded;
     private List<String> descriptions;
     private List<TimeTableResponse> timeTables;
+    private int studentCount;
     private List<String> tags;
 }

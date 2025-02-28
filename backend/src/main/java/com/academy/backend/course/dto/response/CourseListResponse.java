@@ -25,5 +25,6 @@ public class CourseListResponse {
         private Boolean isLive;
         private Boolean isOnline;
         private Boolean isRecorded;
+        private int studentCount;
     }
 }
