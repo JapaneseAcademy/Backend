@@ -22,6 +22,7 @@ public class CourseListResponse {
         private LocalDate startDate;
         private LocalDate endDate;
         private String mainImageUrl;
+        private List<String> descriptions;
         private Boolean isLive;
         private Boolean isOnline;
         private Boolean isRecorded;
