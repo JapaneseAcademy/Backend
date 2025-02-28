@@ -41,11 +41,8 @@ public class CourseConverter {
         }
     }
 
-    public static CourseListResponse toCourseListResponse(List<Course> courses) {
+    public static CourseListResponse toCourseListResponse(List<CourseInfo> courseInfos) {
         try {
-            List<CourseInfo> courseInfos = courses.stream()
-                    .map(CourseConverter::toCourseInfo).toList();
-
             return CourseListResponse.builder()
                     .courseInfos(courseInfos)
                     .listSize(courseInfos.size())
@@ -55,8 +52,11 @@ public class CourseConverter {
         }
     }
 
-    public static CourseInfo toCourseInfo(Course course) {
+    public static CourseInfo toCourseInfo(Course course, List<Description> descriptions) {
         try {
+            List<String> imageUrls = descriptions.stream()
+                    .map(Description::getImageUrl).toList();
+
             return CourseInfo.builder()
                     .courseId(course.getId())
                     .title(course.getTitle())
@@ -64,6 +64,7 @@ public class CourseConverter {
                     .startDate(course.getStartDate())
                     .endDate(course.getEndDate())
                     .mainImageUrl(course.getMainImageUrl())
+                    .descriptions(imageUrls)
                     .isLive(course.getIsLive())
                     .isOnline(course.getIsOnline())
                     .isRecorded(course.getIsRecorded())
@@ -72,6 +73,5 @@ public class CourseConverter {
         } catch (Exception e) {
             throw new CourseMappingException();
         }
-
     }
 }

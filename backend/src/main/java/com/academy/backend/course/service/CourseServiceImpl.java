@@ -21,6 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+import static com.academy.backend.course.dto.response.CourseListResponse.CourseInfo;
+
 @Service
 @RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService{
@@ -89,8 +91,13 @@ public class CourseServiceImpl implements CourseService{
     @Transactional(readOnly = true)
     public CourseListResponse getAllCourses() {
         List<Course> courses = courseRepository.findAll();
-
-        return CourseConverter.toCourseListResponse(courses);
+        List<CourseInfo> courseInfos = courses.stream()
+                .map(course -> {
+                    List<Description> descriptions = descriptionService.getDescriptionsByCourse(course);
+                    return CourseConverter.toCourseInfo(course, descriptions);
+                })
+                .toList();
+        return CourseConverter.toCourseListResponse(courseInfos);
     }
 
     @Override
