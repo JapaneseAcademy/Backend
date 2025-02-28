@@ -23,7 +23,7 @@ public class Description {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Course course;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 2048)
     private String imageUrl;
 
     @Builder

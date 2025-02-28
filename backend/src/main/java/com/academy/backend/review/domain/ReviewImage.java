@@ -22,5 +22,6 @@ public class ReviewImage {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Review review;
 
+    @Column(nullable = false, length = 2048)
     private String imageUrl;
 }
