@@ -1,6 +1,5 @@
 package com.academy.backend.timeBlock.service;
 
-import com.academy.backend.course.domain.Course;
 import com.academy.backend.timeBlock.domain.TimeBlock;
 import com.academy.backend.timeBlock.repository.TimeBlockRepository;
 import com.academy.backend.timeTable.domain.TimeTable;
@@ -32,8 +31,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<TimeBlock> getTimeBlocksByCourse(Course course) {
-        return timeBlockRepository.findByTimeTableId(course.getId());
+    public List<TimeBlock> getTimeBlocksByTimeTableId(Long timeTableId) {
+        return timeBlockRepository.findByTimeTableId(timeTableId);
     }
 }

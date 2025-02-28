@@ -7,12 +7,12 @@ import com.academy.backend.course.domain.Course;
 import com.academy.backend.course.domain.Description;
 import com.academy.backend.course.domain.Tag;
 import com.academy.backend.course.dto.request.CourseCreateRequest;
-import com.academy.backend.course.dto.response.CourseResponse;
+import com.academy.backend.course.dto.response.CourseDetailResponse;
 import com.academy.backend.course.repository.CourseRepository;
 import com.academy.backend.exception.course.CourseNotFoundException;
 import com.academy.backend.member.domain.Member;
-import com.academy.backend.timeBlock.domain.TimeBlock;
 import com.academy.backend.timeBlock.service.TimeBlockService;
+import com.academy.backend.timeTable.dto.response.TimeTableResponse;
 import com.academy.backend.timeTable.service.TimeTableService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -70,24 +70,24 @@ public class CourseServiceImpl implements CourseService{
         // 강의 설명 생성
         descriptionService.createDescription(course, request.getDescriptions());
 
-        // TODO: 수업 시간표 생성
+        // 수업 시간표 생성
         timeTableService.createTimeTable(course, request.getTimeTables());
     }
 
     @Override
     @Transactional(readOnly = true)
-    public CourseResponse getCourse(Long courseId) {
+    public CourseDetailResponse getCourse(Long courseId) {
         Course course = findCourse(courseId);
-        List<TimeBlock> timeBlocks = timeBlockService.getTimeBlocksByCourse(course);
+        List<TimeTableResponse> timeTableResponses = timeTableService.getTimeTablesByCourseId(courseId);
         List<Description> descriptions = descriptionService.getDescriptionsByCourse(course);
         List<Tag> tags = tagService.getTagsByCourse(course);
 
-        return CourseConverter.toCourseResponse(course, descriptions, timeBlocks, tags);
+        return CourseConverter.toCourseDetailResponse(course, descriptions, timeTableResponses, tags);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<CourseResponse> getAllCourses() {
+    public List<CourseDetailResponse> getAllCourses() {
         List<Course> courses = courseRepository.findAll();
         return courses.stream()
                 .map(course -> getCourse(course.getId()))

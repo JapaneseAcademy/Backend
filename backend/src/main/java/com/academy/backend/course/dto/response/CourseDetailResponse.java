@@ -1,6 +1,6 @@
 package com.academy.backend.course.dto.response;
 
-import com.academy.backend.timeBlock.dto.response.TimeBlockResponse;
+import com.academy.backend.timeTable.dto.response.TimeTableResponse;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -9,7 +9,7 @@ import java.util.List;
 
 @Getter
 @Builder
-public class CourseResponse {
+public class CourseDetailResponse {
 
     private Long id;
     private String title;
@@ -21,6 +21,6 @@ public class CourseResponse {
     private Boolean isOnline;
     private Boolean isRecorded;
     private List<String> descriptions;
-    private List<TimeBlockResponse> timeBlocks;
+    private List<TimeTableResponse> timeTables;
     private List<String> tags;
 }

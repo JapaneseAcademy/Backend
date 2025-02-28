@@ -1,7 +1,7 @@
 package com.academy.backend.course.controller;
 
 import com.academy.backend.course.dto.request.CourseCreateRequest;
-import com.academy.backend.course.dto.response.CourseResponse;
+import com.academy.backend.course.dto.response.CourseDetailResponse;
 import com.academy.backend.course.service.CourseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class CourseController {
     private final CourseService courseService;
 
     @GetMapping("")
-    public ResponseEntity<List<CourseResponse>> getAllCourses() {
+    public ResponseEntity<List<CourseDetailResponse>> getAllCourses() {
         return ResponseEntity.ok(courseService.getAllCourses());
     }
 
@@ -35,8 +35,8 @@ public class CourseController {
     }
 
     @GetMapping("/{courseId}")
-    public ResponseEntity<CourseResponse> getCourse(@PathVariable Long courseId) {
-        CourseResponse response = courseService.getCourse(courseId);
+    public ResponseEntity<CourseDetailResponse> getCourse(@PathVariable Long courseId) {
+        CourseDetailResponse response = courseService.getCourse(courseId);
 
         return ResponseEntity.ok(response);
     }

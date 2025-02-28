@@ -1,9 +1,12 @@
 package com.academy.backend.timeTable.service;
 
 import com.academy.backend.course.domain.Course;
+import com.academy.backend.timeBlock.domain.TimeBlock;
 import com.academy.backend.timeBlock.service.TimeBlockService;
+import com.academy.backend.timeTable.converter.TimeTableConverter;
 import com.academy.backend.timeTable.domain.TimeTable;
 import com.academy.backend.timeTable.dto.request.TimeTableRequest;
+import com.academy.backend.timeTable.dto.response.TimeTableResponse;
 import com.academy.backend.timeTable.repository.TimeTableRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -38,5 +41,17 @@ public class TimeTableServiceImpl implements TimeTableService {
             timeBlockService.createTimeBlock(timeTable, request.getTimeBlocks());
         });
 
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<TimeTableResponse> getTimeTablesByCourseId(Long courseId) {
+        List<Long> timeTableIds = timeTableRepository.findTimeTableIdByCourseId(courseId);
+
+        return timeTableIds.stream()
+                .map(timeTableId -> {
+                    List<TimeBlock> timeBlocks = timeBlockService.getTimeBlocksByTimeTableId(timeTableId);
+                    return TimeTableConverter.toTimeTableResponse(timeBlocks);
+                }).toList();
     }
 }

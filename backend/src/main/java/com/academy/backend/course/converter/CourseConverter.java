@@ -3,17 +3,15 @@ package com.academy.backend.course.converter;
 import com.academy.backend.course.domain.Course;
 import com.academy.backend.course.domain.Description;
 import com.academy.backend.course.domain.Tag;
-import com.academy.backend.course.dto.response.CourseResponse;
-import com.academy.backend.timeBlock.converter.TimeBlockConverter;
-import com.academy.backend.timeBlock.domain.TimeBlock;
-import com.academy.backend.timeBlock.dto.response.TimeBlockResponse;
+import com.academy.backend.course.dto.response.CourseDetailResponse;
 import com.academy.backend.exception.course.CourseMappingException;
+import com.academy.backend.timeTable.dto.response.TimeTableResponse;
 
 import java.util.List;
 
 public class CourseConverter {
 
-    public static CourseResponse toCourseResponse(Course course, List<Description> descriptions, List<TimeBlock> timeBlocks, List<Tag> tags) {
+    public static CourseDetailResponse toCourseDetailResponse(Course course, List<Description> descriptions, List<TimeTableResponse> timeTables, List<Tag> tags) {
         try {
             List<String> descriptionImageUrls = descriptions.stream()
                     .map(Description::getImageUrl).toList();
@@ -21,10 +19,7 @@ public class CourseConverter {
             List<String> tagLabels = tags.stream()
                     .map(Tag::getLabel).toList();
 
-            List<TimeBlockResponse> timeBlockResponse = timeBlocks.stream()
-                    .map(TimeBlockConverter::toTimeBlockResponse).toList();
-
-            return CourseResponse.builder()
+            return CourseDetailResponse.builder()
                     .id(course.getId())
                     .title(course.getTitle())
                     .cost(course.getCost())
@@ -35,7 +30,7 @@ public class CourseConverter {
                     .isOnline(course.getIsOnline())
                     .isRecorded(course.getIsRecorded())
                     .descriptions(descriptionImageUrls)
-                    .timeBlocks(timeBlockResponse)
+                    .timeTables(timeTables)
                     .tags(tagLabels)
                     .build();
         } catch (Exception e) {
