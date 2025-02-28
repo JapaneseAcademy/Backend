@@ -56,7 +56,7 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     @Transactional
-    public void createCourse(CourseCreateRequest request, MultipartFile mainImage) {
+    public void createCourse(CourseCreateRequest request, MultipartFile mainImage, List<MultipartFile> descriptions) {
 
         // TODO: 관리자 ID로 수정 필요
         Member member = commonService.getMemberByMemberId(1L);
@@ -69,7 +69,7 @@ public class CourseServiceImpl implements CourseService{
         }
 
         // 강의 설명 생성
-        descriptionService.createDescription(course, request.getDescriptions());
+        descriptionService.createDescription(course, descriptions);
 
         // 수업 시간표 생성
         timeTableService.createTimeTable(course, request.getTimeTables());

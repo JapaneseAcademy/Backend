@@ -6,8 +6,10 @@ import com.academy.backend.course.dto.response.CourseDetailResponse;
 import com.academy.backend.course.dto.response.CourseListResponse;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 public interface CourseService {
-    void createCourse(CourseCreateRequest request, MultipartFile mainImage);
+    void createCourse(CourseCreateRequest request, MultipartFile mainImage, List<MultipartFile> descriptions);
     Course findCourse(Long courseId);
     CourseDetailResponse getCourse(Long courseId);
     CourseListResponse getAllCourses();

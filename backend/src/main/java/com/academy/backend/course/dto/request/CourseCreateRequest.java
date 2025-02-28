@@ -37,7 +37,6 @@ public class CourseCreateRequest {
     @NotNull(message = "가능한 강의 유형은 필수 입력 정보입니다.")
     private Boolean isRecorded;
 
-    private List<String> descriptions = Collections.emptyList();
     private List<String> tags = Collections.emptyList();
 
     @Valid

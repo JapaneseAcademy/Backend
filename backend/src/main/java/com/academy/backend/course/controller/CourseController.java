@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RequestMapping("/api/v1/courses")
 @RestController
 @RequiredArgsConstructor
@@ -26,9 +28,10 @@ public class CourseController {
     @PostMapping("")
     public ResponseEntity<?> createCourse(
             @Valid @RequestPart("request") CourseCreateRequest request,
-            @RequestPart("mainImage") MultipartFile mainImage
-            ) {
-        courseService.createCourse(request, mainImage);
+            @RequestPart("mainImage") MultipartFile mainImage,
+            @RequestPart("descriptions") List<MultipartFile> descriptions
+    ) {
+        courseService.createCourse(request, mainImage, descriptions);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
